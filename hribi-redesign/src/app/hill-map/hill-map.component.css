@@ -1,0 +1,97 @@
+/* hill-map.component.css */
+
+.map-container {
+    display: flex; /* Allows the map and sidebar to sit side-by-side */
+    height: 100vh; /* Make the container fill the viewport height */
+    width: 100%;
+}
+
+#map {
+    flex-grow: 1; /* Map takes up all available space by default */
+    min-width: 0; /* Prevents overflow issues */
+    transition: width 0.3s ease-in-out; /* Smooth transition when sidebar appears */
+    z-index: 1; /* Ensure map is not covered by fixed elements */
+}
+
+/* When the sidebar is visible, reduce the map's size to make room */
+#map.map-with-sidebar {
+    flex-basis: 75%; /* Map takes 75% */
+}
+
+.sidebar {
+    width: 25%; /* Sidebar takes 25% */
+    min-width: 300px; /* Minimum width for readability */
+    max-width: 400px; /* Maximum width to prevent it from getting too wide */
+    background-color: #f4f4f4;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    box-sizing: border-box;
+    overflow-y: auto; /* Allows scrolling if the list is long */
+    z-index: 2; /* Ensure sidebar is on top of the map */
+}
+
+.sidebar header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.sidebar h2 {
+    margin: 0;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 1.5em;
+    cursor: pointer;
+    color: #999;
+    padding: 5px;
+}
+
+.close-btn:hover {
+    color: #333;
+}
+
+/* Hill Card Styling */
+.hill-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.hill-card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #007bff; /* Blue color for names */
+}
+
+.hill-card p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+
+.hill-card button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background-color: #28a745; /* Green button */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.hill-card button:hover {
+    background-color: #218838;
+}

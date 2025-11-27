@@ -1,0 +1,107 @@
+/* --- NAVIGATION --- */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  top: 0;
+  z-index: 10;
+  padding: 10px 12px;
+
+  .logo {
+    width: 100px; 
+}
+
+  .nav-right a {
+    margin-left: 24px;
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    font-size: 16px;
+    margin-right: 24px;
+  }
+}
+
+/* --- HERO SECTION --- */
+.hero {
+  position: relative;
+  height: 60vh;
+  background-image: url('../../assets/home.jpg');
+  background-size: cover;
+  background-position: center;
+
+  .hero-overlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding-top: 90px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: white;
+    text-align: center;
+
+    h1 {
+      font-size: 54px;
+      margin-bottom: 24px;
+    }
+
+    .search-box {
+      display: flex;
+      background: rgba(255, 255, 255, 0.75);
+      border-radius: 40px;
+      padding: 8px 16px;
+      width: 320px;
+      align-items: center;
+      backdrop-filter: blur(4px);
+
+      input {
+        border: none;
+        background: transparent;
+        flex: 1;
+        font-size: 16px;
+        padding-left: 10px;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      button {
+        background: transparent;
+        border: none;
+        font-size: 20px;
+        cursor: pointer;
+      }
+    }
+  }
+}
+
+/* --- CONTENT SECTION --- */
+.content {
+  padding: 10px;
+  background: white;
+
+  h2 {
+    margin-top: 10px;
+    font-size: 28px;
+    font-weight: 600;
+  }
+}
+
+.kaushan-script-regular {
+  font-family: "Kaushan Script", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.roboto-100 {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 100;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+

@@ -1,0 +1,67 @@
+<div style="padding: 20px;">
+    <div *ngIf="hillData">
+        <h1>Hill Details: {{ hillData.name }} (ID: {{ hillData.id }})</h1>
+        <hr>
+
+        <h2>Core Information</h2>
+        <p><strong>Country:</strong> {{ hillData.country }}</p>
+        <p><strong>Mountain Range:</strong> {{ hillData.mountainRange }}</p>
+        <p><strong>Height:</strong> {{ hillData.height }}m</p>
+        <p><strong>Latitude:</strong> {{ hillData.lat }}</p>
+        <p><strong>Longitude:</strong> {{ hillData.lon }}</p>
+        <p><strong>Type:</strong> {{ hillData.type }}</p>
+        <p><strong>Popularity:</strong> {{ hillData.popularity }} / 5</p>
+
+        <h2>Description</h2>
+        <p>{{ hillData.description }}</p>
+        <hr>
+
+        <h2>Routes ({{ hillData.routes.length }})</h2>
+        <div *ngIf="hillData.routes.length === 0">No routes listed.</div>
+        <div *ngFor="let route of hillData.routes; let i = index" style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
+            <h3>Route #{{ i + 1 }}: {{ route.name }} (ID: {{ route.id }})</h3>
+            <p><strong>Start:</strong> {{ route.start }}</p>
+            <p><strong>End:</strong> {{ route.end }}</p>
+            <p><strong>Estimated Time:</strong> {{ route.time }}</p>
+            <p><strong>Difficulty:</strong> {{ route.difficulty }}</p>
+            <p><strong>Height Difference:</strong> {{ route.heightDiff }}m</p>
+            <p><strong>Summer Gear:</strong> {{ route.summerGear }}</p>
+            <p><strong>Winter Gear:</strong> {{ route.winterGear }}</p>
+            
+            <h4>Route Details</h4>
+            <p><strong>Start Description:</strong> {{ route.descriptionOfStart }}</p>
+            <p><strong>Path Description:</strong> {{ route.descriptionOfPath }}</p>
+            
+            <h4>Route Comments ({{ route.comments.length }})</h4>
+            <div *ngFor="let routeComment of route.comments" style="margin-left: 20px;">
+                <p><strong>{{ routeComment.user }}</strong> on {{ routeComment.time | date }}: {{ routeComment.text }}</p>
+            </div>
+        </div>
+        <hr>
+
+        <h2>Images ({{ hillData.images.length }})</h2>
+        <div *ngIf="hillData.images.length === 0">No images available.</div>
+        <div *ngFor="let image of hillData.images">
+            <p>Name: {{ image.name }} | URL: {{ image.url }} | Alt Text: {{ image.alt }}</p>
+        </div>
+        <hr>
+
+        <h2>Webcams ({{ hillData.webcams.length }})</h2>
+        <div *ngIf="hillData.webcams.length === 0">No webcams available.</div>
+        <div *ngFor="let webcam of hillData.webcams">
+            <p>Name: {{ webcam.name }} (ID: {{ webcam.id }}) | URL: {{ webcam.url }}</p>
+        </div>
+        <hr>
+
+        <h2>General Comments ({{ hillData.comments.length }})</h2>
+        <div *ngIf="hillData.comments.length === 0">No general comments yet.</div>
+        <div *ngFor="let comment of hillData.comments">
+            <p><strong>{{ comment.user }}</strong> on {{ comment.time | date }}: {{ comment.text }}</p>
+        </div>
+    </div>
+
+    <div *ngIf="!hillData">
+        <h1>Error 404: Hill Not Found</h1>
+        <p>Could not find a hill with ID: {{ hillID }}</p>
+    </div>
+</div>

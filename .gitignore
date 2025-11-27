@@ -1,0 +1,36 @@
+# Angular build output
+/dist/
+/out-tsc/
+
+# Compiled output
+/tmp/
+temp/
+
+# Node modules
+/node_modules/
+
+# IDE files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Environment files
+src/environments/environment.prod.ts
+src/environments/environment.ts
+
+# Logs
+npm-debug.log
+yarn-error.log
+
+# Angular cache (Angular CLI v15+)
+/.angular/cache/
+
+# Optional: If using local Firebase or tooling
+.firebase/
