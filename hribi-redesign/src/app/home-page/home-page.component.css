@@ -3,39 +3,77 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  position: absolute;
+  position: fixed;
   width: 100%;
   top: 0;
-  z-index: 10;
+  z-index: 9999;
   padding: 10px 12px;
+  background: transparent;  /* initial state */
+  backdrop-filter: none;  
+  transition: background 0.35s ease, 
+              backdrop-filter 0.35s ease,
+              color 0.35s ease;
 
   .logo {
     width: 100px; 
-}
+  }
 
   .nav-right a {
     margin-left: 24px;
     text-decoration: none;
-    color: white;
+    color: white;   
     font-weight: 500;
     font-size: 16px;
     margin-right: 24px;
+    transition: color 0.35s ease;
   }
 }
 
-/* --- HERO SECTION --- */
+.navbar.nav-scrolled {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+
+  .nav-right a {
+    color: black; /* change text color */
+  }
+}
+
 .hero {
   position: relative;
-  height: 60vh;
-  background-image: url('../../assets/home.jpg');
-  background-size: cover;
-  background-position: center;
+  height: 70vh;
+  overflow: hidden; /* ensure pseudo-element stays contained */
 
-  .hero-overlay {
+  /* Background layer (dimmed at start) */
+  &::before {
+    content: "";
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    padding-top: 90px;
+    background-image: url('../../assets/home2.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    filter: brightness(60%);           /* dim background ONLY */
+    transition: filter 0.6s ease;
+    z-index: 1;                         /* behind content */
+  }
+
+  /* When scrolled, brighten background */
+  &.hero-bright::before {
+    filter: brightness(100%);
+  }
+
+  /* Content stays bright */
+  .hero-overlay {
+    position: relative;
+    z-index: 2;                          /* above dimmed background */
+    width: 100%;
+    height: 100%;
+    padding-top: 200px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -78,6 +116,7 @@
   }
 }
 
+
 /* --- CONTENT SECTION --- */
 .content {
   padding: 10px;
@@ -103,5 +142,27 @@
   font-style: normal;
   font-variation-settings:
     "wdth" 100;
+}
+
+.custom-shape-divider-bottom-1764333907 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    transform: rotate(180deg);
+    z-index: 3;
+}
+
+.custom-shape-divider-bottom-1764333907 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 64px;
+}
+
+.custom-shape-divider-bottom-1764333907 .shape-fill {
+    fill: #FFFFFF;
 }
 

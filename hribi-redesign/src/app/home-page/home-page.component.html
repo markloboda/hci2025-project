@@ -1,8 +1,8 @@
 <!-- Navigation Bar -->
-<header class="navbar">
+<header class="navbar" [class.nav-scrolled]="scrolled">
   <div class="nav-left">
     <img
-      src="/assets/logo.png"
+      [src]="scrolled ? 'assets/logo-light.png' : 'assets/logo.png'"
       alt="Hribi.net logo"
       class="logo"
     />
@@ -17,21 +17,23 @@
 </header>
 
 <!-- Hero Section -->
-<section class="hero">
-  <div class="hero-overlay">
+<section class="hero" [class.hero-bright]="scrolled">
+<div class="hero-overlay">
     <h1 class="kaushan-script-regular">Gremo v hribe</h1>
-
     <div class="search-box">
       <input type="text" placeholder="Kam danes?" />
-      <button>
-        🔍
-      </button>
+      <button>🔍</button>
     </div>
+  </div>
+
+  <div class="custom-shape-divider-bottom-1764333907">
+    <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+      <path d="M1200 0L0 0 598.97 114.72 1200 0z" class="shape-fill"></path>
+    </svg>
   </div>
 </section>
 
-<!-- Content Start -->
 <section class="content">
   <h2 class="roboto-100">Interaktivni zemljevid</h2>
-    <app-hill-map></app-hill-map>
+  <app-hill-map></app-hill-map>
 </section>
