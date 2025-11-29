@@ -22,8 +22,11 @@ temp/
 Thumbs.db
 
 # Environment files
-src/environments/environment.prod.ts
 src/environments/environment.ts
+src/environments/environment.prod.ts
+
+# Or if you want to keep the structure but ignore sensitive data:
+# src/environments/environment.local.ts
 
 # Logs
 npm-debug.log

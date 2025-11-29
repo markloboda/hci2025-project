@@ -57,3 +57,9 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 ## Additional Resources
 
 For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+# Setup Instructions
+
+1. Copy `src/environments/environment.template.ts` to `src/environments/environment.ts`
+2. Replace `YOUR_OPENWEATHERMAP_API_KEY_HERE` with your actual API key
+3. Do the same for `environment.prod.ts`

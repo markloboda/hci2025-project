@@ -1,23 +1,70 @@
 <div class="hill-page-container" *ngIf="hillData">
   <h1 class="hill-name">🏔️ {{ hillData.name }} (ID: {{ hillData.id }})</h1>
 
-  <!-- Top Section: Basic Info + Gallery -->
-
+  <!-- Top Section: Info + Weather + Gallery -->
   <div class="top-section">
-    <div class="basic-info-card card-panel">
+    <!-- Basic Info -->
+    <div class="basic-info-card card-panel group-card">
       <h2>Osnovni podatki</h2>
-      <div class="info-content">
-        <p><strong>Država:</strong> {{ hillData.country }}</p>
-        <p><strong>Veriga:</strong> {{ hillData.mountainRange }}</p>
-        <p><strong>Višina Vrha:</strong> {{ hillData.height }} m</p>
-        <p><strong>Tip:</strong> {{ hillData.type }}</p>
-        <p><strong>Zemljepisna širina:</strong> {{ hillData.lat }}</p>
-        <p><strong>Zemljepisna višina:</strong> {{ hillData.lon }}</p>
-        <p><strong>Priljubljenost:</strong> {{ hillData.popularity }} / 5</p>
+      <div class="info-table">
+        <div class="info-row">
+          <div class="info-label">🌍 Država:</div>
+          <div class="info-value">{{ hillData.country }}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">⛰️ Gorovje:</div>
+          <div class="info-value">{{ hillData.mountainRange }}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">📏 Višina:</div>
+          <div class="info-value">{{ hillData.height }} m</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">📍 Koordinate:</div>
+          <div class="info-value">
+            {{ hillData.lat }}°N / {{ hillData.lon }}°E
+          </div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">🏷️ Vrsta:</div>
+          <div class="info-value">{{ hillData.type }}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label">⭐ Priljubljenost:</div>
+          <div class="info-value">{{ hillData.popularity }} / 5</div>
+        </div>
       </div>
-      <div class="time-box">Vreme: <strong>Trenutno sončno, 18°C</strong></div>
     </div>
 
+    <!-- Weather -->
+    <div class="weather-card card-panel group-card">
+      <div class="current-weather" *ngIf="currentWeather">
+        <div class="current-weather-icon">
+          {{ getWeatherEmoji(currentWeather.icon) }}
+        </div>
+        <div class="current-weather-info">
+          <div class="current-temp">{{ currentWeather.temp }}°C</div>
+          <div class="current-condition">
+            {{ currentWeather.description | titlecase }}
+          </div>
+        </div>
+      </div>
+
+      <div class="weather-forecast">
+        <h3>Napoved za naslednje dni</h3>
+        <div class="forecast-days">
+          <div class="forecast-day" *ngFor="let forecast of weatherForecast">
+            <div class="day-name">{{ forecast.day }}</div>
+            <div class="weather-icon">{{ getWeatherEmoji(forecast.icon) }}</div>
+            <div class="temp">
+              {{ forecast.highTemp }}°C / {{ forecast.lowTemp }}°C
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery -->
     <div class="gallery-card card-panel">
       <h2>Galerija ({{ hillData.images.length }})</h2>
       <div *ngIf="hillData.images.length === 0" class="gallery-placeholder">
@@ -35,79 +82,113 @@
   </div>
 
   <!-- Description -->
-
-  <div class="card-panel">
+  <div class="card-panel group-card">
     <h2>Opis</h2>
     <p>{{ hillData.description }}</p>
   </div>
 
-  <!-- Map Section -->
+  <!-- Map and Routes Section -->
+  <div class="map-routes-section">
+    <!-- Map -->
+    <div class="map-card card-panel group-card">
+      <h2>🗺️ Zemljevid</h2>
+      <div class="map-placeholder">
+        <div class="map-icon">🗺️</div>
+        <p>Zemljevid za {{ hillData.name }}</p>
+        <div class="map-info">
+          <p><strong>📍 Koordinate:</strong> {{ hillData.lat }}°N, {{ hillData.lon }}°E</p>
+        </div>
+        <button class="map-button" (click)="openInGoogleMaps()">
+          Odpri v Google Maps
+        </button>
+        <div class="map-hint" *ngIf="hillData.routes.length > 0">
+          <p>💡 Klikni na pot za prikaz na zemljevidu</p>
+        </div>
+      </div>
+    </div>
 
-  <div class="map-card card-panel">
-    <h2>Zemljevid</h2>
-    <div class="map-placeholder"></div>
+    <!-- Routes -->
+    <div class="routes-card card-panel group-card">
+      <h2>Poti ({{ hillData.routes.length }})</h2>
+      <div *ngIf="hillData.routes.length === 0" class="no-routes-message">
+        Ni navedenih poti.
+      </div>
+      <div class="routes-list">
+        <div *ngFor="let route of hillData.routes; let i = index"
+             class="route-item"
+             [class.selected]="selectedRouteIndex === i"
+             (click)="selectRoute(i)">
+          <div class="route-summary">
+            <h3>{{ route.name }}</h3>
+            <div class="route-quick-info">
+              <span class="route-time">⏱️ {{ route.time }}</span>
+              <span class="route-difficulty">🏔️ {{ route.difficulty }}</span>
+              <span class="route-height">📏 {{ route.heightDiff }}m</span>
+            </div>
+          </div>
+          <div class="route-indicator">
+            <span class="route-number">{{ i + 1 }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <!-- Routes Section -->
-
-  <div class="paths-details-section">
-    <h2>Poti ({{ hillData.routes.length }})</h2>
-    <div *ngIf="hillData.routes.length === 0" class="no-routes-message">
-      No routes listed.
-    </div>
-    <div *ngFor="let route of hillData.routes" class="route-detail-card">
-      <h3>{{ route.name }} (ID: {{ route.id }})</h3>
+  <!-- Route Details (Expanded when a route is selected) -->
+  <div class="route-details-section group-card" *ngIf="selectedRouteIndex !== null && hillData.routes[selectedRouteIndex]">
+    <h2>📋 Podrobnosti poti: {{ hillData.routes[selectedRouteIndex].name }}</h2>
+    <div class="route-details-content">
       <div class="route-basic-info">
-        <p>
-          <strong>Začetek:</strong> {{ route.start }} | <strong>Konec:</strong>
-          {{ route.end }}
-        </p>
-        <p>
-          <strong>Čas hoje:</strong> {{ route.time }} |
-          <strong>Višinska razlika:</strong> {{ route.heightDiff }}m
-        </p>
-        <p><strong>Težavnost:</strong> {{ route.difficulty }}</p>
-        <p>
-          <strong>Poletna oprema:</strong> {{ route.summerGear }} |
-          <strong>Zimska oprema:</strong> {{ route.winterGear }}
-        </p>
+        <h3>Osnovni podatki</h3>
+        <p><strong>Začetek:</strong> {{ hillData.routes[selectedRouteIndex].start }}</p>
+        <p><strong>Konec:</strong> {{ hillData.routes[selectedRouteIndex].end }}</p>
+        <p><strong>Čas hoje:</strong> {{ hillData.routes[selectedRouteIndex].time }}</p>
+        <p><strong>Višinska razlika:</strong> {{ hillData.routes[selectedRouteIndex].heightDiff }}m</p>
+        <p><strong>Težavnost:</strong> {{ hillData.routes[selectedRouteIndex].difficulty }}</p>
+        <p><strong>Poletna oprema:</strong> {{ hillData.routes[selectedRouteIndex].summerGear }}</p>
+        <p><strong>Zimska oprema:</strong> {{ hillData.routes[selectedRouteIndex].winterGear }}</p>
       </div>
+
       <div class="route-description">
+        <h3>Opisi</h3>
         <h4>Opis začetka</h4>
-        <p>{{ route.descriptionOfStart }}</p>
+        <p>{{ hillData.routes[selectedRouteIndex].descriptionOfStart }}</p>
         <h4>Opis poti</h4>
-        <p>{{ route.descriptionOfPath }}</p>
+        <p>{{ hillData.routes[selectedRouteIndex].descriptionOfPath }}</p>
       </div>
-      <div class="route-comments">
-        <h4>Komentarji ({{ route.comments.length }})</h4>
-        <div *ngIf="route.comments.length === 0" class="no-comments">
-          Ni komentarjev za to pot.
-        </div>
-        <div class="comment-item" *ngFor="let comment of route.comments">
+
+      <div class="route-comments" *ngIf="hillData.routes[selectedRouteIndex].comments.length > 0">
+        <h3>Komentarji ({{ hillData.routes[selectedRouteIndex].comments.length }})</h3>
+        <div class="comment-item" *ngFor="let comment of hillData.routes[selectedRouteIndex].comments">
           <p>
-            <strong>{{ comment.user }}</strong> on {{ comment.time | date }}:
+            <strong>{{ comment.user }}</strong> - {{ comment.time | date }}:
             {{ comment.text }}
           </p>
         </div>
       </div>
     </div>
+
+    <button class="close-details-btn" (click)="deselectRoute()">
+      Zapri podrobnosti
+    </button>
   </div>
 
-  <!-- Webcams Section -->
-
-  <div class="card-panel">
+  <!-- Webcams -->
+  <div class="card-panel group-card">
     <h2>Spletne kamere ({{ hillData.webcams.length }})</h2>
     <div *ngIf="hillData.webcams.length === 0" class="no-comments">
       Ni spletnih kamer.
     </div>
     <div *ngFor="let webcam of hillData.webcams">
-      <p>{{ webcam.name }} (ID: {{ webcam.id }}) | URL: {{ webcam.url }}</p>
+      <p>
+        <strong>{{ webcam.name }}</strong
+        >: <a [href]="webcam.url" target="_blank">{{ webcam.url }}</a>
+      </p>
     </div>
   </div>
 
-  <!-- General Comments Section -->
-
-  <div class="card-panel">
+  <!-- Comments -->
+  <div class="card-panel group-card">
     <h2>Komentarji hriba ({{ hillData.comments.length }})</h2>
     <div *ngIf="hillData.comments.length === 0" class="no-comments">
       Ni komentarjev za ta hrib.
