@@ -1,2 +1,21 @@
+<!-- Navigation Bar -->
+<header class="navbar" [class.nav-scrolled]="scrolled">
+  <div class="nav-left">
+    <img
+      [src]="scrolled ? 'assets/logo-light.png' : 'assets/logo.png'"
+      alt="Hribi.net logo"
+      class="logo"
+    />
+  </div>
+
+  <nav class="nav-right roboto-100">
+    <a href="#">Novice</a>
+    <a href="#">Zemljevid</a>
+    <a href="#">Vreme</a>
+    <a href="#">Kamere</a>
+  </nav>
+</header>
+<app-search-widget *ngIf="showSearch" mode="floating" class="show"></app-search-widget>
+
 
 <router-outlet></router-outlet>

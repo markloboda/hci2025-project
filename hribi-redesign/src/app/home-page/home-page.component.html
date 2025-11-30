@@ -1,29 +1,8 @@
-<!-- Navigation Bar -->
-<header class="navbar" [class.nav-scrolled]="scrolled">
-  <div class="nav-left">
-    <img
-      [src]="scrolled ? 'assets/logo-light.png' : 'assets/logo.png'"
-      alt="Hribi.net logo"
-      class="logo"
-    />
-  </div>
-
-  <nav class="nav-right roboto-100">
-    <a href="#">Novice</a>
-    <a href="#">Zemljevid</a>
-    <a href="#">Vreme</a>
-    <a href="#">Kamere</a>
-  </nav>
-</header>
-
 <!-- Hero Section -->
 <section class="hero" [class.hero-bright]="scrolled">
 <div class="hero-overlay">
     <h1 class="kaushan-script-regular">Gremo v hribe</h1>
-    <div class="search-box">
-      <input type="text" placeholder="Kam danes?" />
-      <button>🔍</button>
-    </div>
+    <app-search-widget mode="hero"></app-search-widget>  
   </div>
 
   <div class="custom-shape-divider-bottom-1764333907">
@@ -33,7 +12,18 @@
   </div>
 </section>
 
-<section class="content">
-  <h2 class="roboto-100">Interaktivni zemljevid</h2>
-  <app-hill-map></app-hill-map>
+<section class="homepage-map-section">
+  <div class="homepage-map-card group-card">
+    <h2 class="homepage-map-title kaushan-script-regular">
+       Interaktivni zemljevid Slovenije
+    </h2>
+
+    <p class="homepage-map-subtitle">
+      Izberi hrib na zemljevidu ali klikni na marker za podrobnosti.
+    </p>
+
+    <div class="homepage-map-container">
+      <app-hill-map></app-hill-map>
+    </div>
+  </div>
 </section>

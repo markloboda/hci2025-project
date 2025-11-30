@@ -111,6 +111,12 @@ export class HillMapComponent implements AfterViewInit {
 
     private initMap() {
         // --- 1. ICON FIX for Leaflet Default Markers ---
+        const hillIcon = L.icon({
+            iconUrl: 'assets/icons/marker.svg',
+            iconSize: [24, 38],
+            iconAnchor: [19, 46],
+            popupAnchor: [0, -42]
+            });
         const iconRetinaUrl = 'assets/marker-icon-2x.png';
         const iconUrl = 'assets/marker-icon.png';
         const shadowUrl = 'assets/marker-shadow.png';
@@ -126,9 +132,9 @@ export class HillMapComponent implements AfterViewInit {
         L.Marker.prototype.options.icon = iconDefault;
 
         // --- 2. MAP INITIALIZATION & BASE LAYERS ---
-        const osmBaseLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        const osmBaseLayer = L.tileLayer('https://tile.openstreetmap.de/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            attribution: '&copy; OpenStreetMap contributors'
         });
 
         this.map = L.map('map', {
@@ -166,7 +172,8 @@ export class HillMapComponent implements AfterViewInit {
             // Create a custom marker with the full hill object in its options
             const marker = L.marker([hill.lat, hill.lon], { 
                 // Store the hill data directly in the marker's options for retrieval on click
-                hillData: hill 
+                hillData: hill,
+                icon: hillIcon
             } as any); 
 
             marker.bindPopup(hill.name);

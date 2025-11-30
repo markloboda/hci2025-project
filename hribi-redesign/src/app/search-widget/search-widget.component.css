@@ -1,0 +1,64 @@
+/* ----- base wrapper ----- */
+.search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(12px);
+  border-radius: 40px;
+  padding: 12px 20px;
+  width: 350px;
+
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+/* ----- hero mode (centered on homepage) ------ */
+.search-wrapper.hero {
+  margin: 0 auto;
+}
+
+.search-wrapper.floating {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5000;
+  opacity: 0;
+}
+
+.search-wrapper.floating.show {
+  opacity: 1;
+  transition: opacity 0.25s ease-out;
+}
+
+/* ----- dropdown ----- */
+.dropdown {
+  position: absolute;
+  top: 58px;
+  left: 0;
+  width: 100%;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+  padding: 6px 0;
+  animation: fadeIn 0.15s ease-out;
+  z-index: 10000;
+}
+
+.dropdown-item {
+  color: black;        /* <-- your request */
+  padding: 10px 18px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.dropdown-item:hover {
+  background: #ececec;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="38" viewBox="0 0 30 38">
+  <!-- Outer pin shape -->
+  <path 
+    d="M15 1a14 14 0 0 1 9.8 24l-6.17 6.44a4.99 4.99 0 0 1-7.26 0L5.2 25A14 14 0 0 1 15 1Z"
+    fill="#6495ED"        
+    stroke="#4169E1"     
+    stroke-width="2"
+  />
+
+  <!-- Inner rounded shape -->
+  <path 
+    d="M15 3a12 12 0 0 0-8.4 20.57l4.72 4.92 1.39 1.44A2.96 2.96 0 0 0 15 31c.86 0 1.63-.36 2.18-.94l6.2-6.47A12 12 0 0 0 15 3Z"
+    fill="#6495ED"
+    stroke="#4169E1"
+    stroke-width="2"
+  />
+
+  <!-- Inner circle -->
+  <circle
+    cx="15"
+    cy="15"
+    r="5"
+    fill="#4169E1"        
+  />
+</svg>
