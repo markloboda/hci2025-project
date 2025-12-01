@@ -17,11 +17,11 @@ export class SearchWidgetComponent {
 
   examples = [
     "Triglav",
-    "Mountains above 2000m",
-    "Weather at Stol",
-    "Live cameras near Kranjska Gora",
-    "Mountain ranges in Slovenia",
-    "Easy hikes under 2h"
+    "Gore višje od 2000m",
+    "Vreme na Stolu",
+    "Kamera v živo pri Kranjski Gori",
+    "Gorske verige v Sloveniji",
+    "Lahki pohodi pod 2h"
   ];
 
   onFocus() {

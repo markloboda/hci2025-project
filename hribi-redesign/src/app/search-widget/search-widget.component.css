@@ -3,22 +3,73 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 10px;
 
-  background: var(--nav-bg, rgba(255, 255, 255, 0.8));
-  backdrop-filter: blur(12px);
-  border-radius: 40px;
-  padding: 12px 20px;
+  gap: 12px;
   width: 350px;
 
-  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(14px);
+  border-radius: 40px;
+  padding: 12px 20px;
+
+  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
 }
+
+/* icon — perfectly centered */
+.search-wrapper .icon {
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+/* input — totally clean */
+.search-wrapper input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+
+  font-size: 16px;
+  padding: 0; /* remove inner padding */
+  margin: 0;
+
+  color: var(--text-color, #000);
+}
+
+/* remove mobile "inner shadows" */
+.search-wrapper input::-webkit-search-decoration,
+.search-wrapper input::-webkit-search-cancel-button,
+.search-wrapper input::-webkit-search-results-button,
+.search-wrapper input::-webkit-search-results-decoration {
+  display: none;
+}
+
+/* ---------------------------------------------------------------- */
+/* ** NEW STYLE TO TARGET AND CLEAN UP THE SEARCH BUTTON ** */
+/* ---------------------------------------------------------------- */
+.search-wrapper button {
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 20px; /* Match the icon size for visual consistency */
+  cursor: pointer;
+  padding: 0;
+  /* Add flex centering properties to ensure the emoji is vertically aligned */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* ---------------------------------------------------------------- */
+/* ---------------------------------------------------------------- */
 
 /* ----- hero mode (centered on homepage) ------ */
 .search-wrapper.hero {
   margin: 0 auto;
 }
 
+/* ----- floating mode ----- */
 .search-wrapper.floating {
   position: fixed;
   top: 80px;
@@ -36,29 +87,32 @@
 /* ----- dropdown ----- */
 .dropdown {
   position: absolute;
-  top: 58px;
+  top: calc(100% + 10px);
   left: 0;
   width: 100%;
-  background: var(--card-bg);
-  border-radius: 12px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.18);
+
+  background: white;
+  border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.18);
   padding: 6px 0;
   animation: fadeIn 0.15s ease-out;
-  z-index: 10000;
+  z-index: 4;
 }
 
 .dropdown-item {
-  color: var(--text-color);
-  padding: 10px 18px;
+  color: black;
+  padding: 12px 18px;
   cursor: pointer;
   transition: background 0.15s ease;
+  text-align: left;
+  border-radius: 14px;
 }
 
 .dropdown-item:hover {
-  background: rgba(255,255,255,0.04);
+  background: #f1f1f1;
 }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-6px); }
-  to   { opacity: 1; transform: translateY(0); }
+  to  { opacity: 1; transform: translateY(0); }
 }
