@@ -33,14 +33,14 @@
 
   display: flex;
   flex-direction: column;
-  justify-content: center;             /* <-- centers vertically */
+  justify-content: flex-start;             /* <-- centers vertically */
   align-items: center;
 
   color: white;
   text-align: center;
 
   padding-top: 0;                       /* <-- remove forced offset */
-  padding-bottom: 60px;
+  padding-bottom: 0px;
 
     h1 {
       font-size: 54px;
