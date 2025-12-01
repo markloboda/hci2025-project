@@ -206,4 +206,8 @@ export class HillMapComponent implements AfterViewInit {
 
         this.map.addLayer(markers);
     }
+
+    alert(message: string) {
+        window.alert(message);
+    }
 }

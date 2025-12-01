@@ -4,30 +4,44 @@
     <div *ngIf="selectedHills().length > 0" class="sidebar">
         
         <header>
-            <h2>{{ selectedHills().length }} Hill{{ selectedHills().length > 1 ? 's' : '' }} Selected</h2>
-            <button (click)="clearSelection()" class="close-btn" title="Close Sidebar">X</button>
+            <h2>{{ selectedHills().length }} Hrib{{ selectedHills().length > 1 ? 'ov' : '' }} Izbranih</h2>
+            <button (click)="clearSelection()" class="close-btn" title="Zapri stran">X</button>
         </header>
 
         <div class="hill-list">
             <div *ngFor="let hill of selectedHills()" class="hill-card">
                 
+                <div class="hill-image-container">
+                    <img src="assets/img/default.jpg" alt="{{ hill.name }}" class="hill-image">
+                </div>
+
                 <h3>{{ hill.name }}</h3>
                 
                 <div class="info-grid">
-                    <p><strong>Height:</strong> {{ hill.height }}m</p>
-                    <p><strong>Range:</strong> {{ hill.mountainRange }}</p>
-                    <p><strong>Type:</strong> {{ hill.type }}</p>
-                    <p><strong>Lat/Lon:</strong> {{ hill.lat | number:'1.2-2' }}, {{ hill.lon | number:'1.2-2' }}</p>
+                    <p>
+                        <i class="fa-solid fa-mountain"></i> 
+                        {{ hill.height }}m
+                    </p>
+                    <p>
+                        <i class="fa-solid fa-layer-group"></i> 
+                        {{ hill.mountainRange }}
+                    </p>
                 </div>
+                
                 <div class="card-actions">
                     <button (click)="goToHillPage(hill.id)" class="detail-btn">
                         <i class="fa-solid fa-circle-info"></i>
-                        View Details
+                        Podrobnosti
                     </button>
 
                     <button (click)="flyToHill(hill)" class="map-btn">
                         <i class="fa-solid fa-location-arrow"></i>
-                        Zoom on Map
+                        Približaj na zemljevidu
+                    </button>
+                    
+                    <button (click)="alert('GPX download for ' + hill.name + ' will be implemented here!')" class="gpx-btn">
+                        <i class="fa-solid fa-route"></i> 
+                        GPX Sled
                     </button>
                 </div>
             </div>
