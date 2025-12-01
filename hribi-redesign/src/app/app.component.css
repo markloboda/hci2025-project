@@ -7,36 +7,53 @@
   width: 100%;
   top: 0;
   z-index: 9999;
-  padding: 10px 12px;
-  background: transparent;  /* initial state */
-  backdrop-filter: none;  
-  transition: background 0.35s ease, 
-              backdrop-filter 0.35s ease,
-              color 0.35s ease;
+  height: 72px;
+  padding: 8px 20px;
+  background: var(--nav-bg, rgba(255,255,255,0.97));
+  backdrop-filter: blur(6px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: background 0.25s ease, backdrop-filter 0.25s ease, color 0.25s ease, transform 0.2s ease;
 
   .logo {
-    width: 100px; 
+    width: 92px;
+  }
+
+  .logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  .logo-link img {
+    display: block;
+    width: 92px;
+    height: auto;
+  }
+
+  /* Ensure logo image displays as provided (no color inversion) */
+  .logo {
+    filter: none;
   }
 
   .nav-right a {
-    margin-left: 24px;
+    margin-left: 20px;
     text-decoration: none;
-    color: white;   
+    color: var(--nav-link-color, #111);   
     font-weight: 500;
-    font-size: 16px;
-    margin-right: 24px;
-    transition: color 0.35s ease;
+    font-size: 15px;
+    margin-right: 12px;
+    transition: color 0.25s ease;
+    padding: 6px 8px;
+    border-radius: 6px;
   }
 }
 
 .navbar.nav-scrolled {
-  background: rgba(255, 255, 255, 0.6);
+  /* subtle change when scrolled further down (kept for gentle effect) */
+  background: var(--nav-bg-scrolled, rgba(255,255,255,0.95));
   backdrop-filter: blur(12px);
-  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
 
-  .nav-right a {
-    color: black; /* change text color */
-  }
+  .nav-right a { color: var(--nav-link-color-scrolled, #0b2030); }
 }
 .floating-search {
   position: fixed;
@@ -52,7 +69,7 @@
   border-radius: 40px;
   width: 320px;
 
-  background: rgba(255,255,255,0.7);
+  background: var(--nav-bg, rgba(255,255,255,0.7));
   backdrop-filter: blur(10px);
   animation: fadeIn 0.4s ease forwards;
 
@@ -60,7 +77,7 @@
 }
 
 .floating-search.scrolled {
-  background: rgba(255,255,255,0.9);
+  background: var(--nav-bg-scrolled, rgba(255,255,255,0.9));
   transform: translateX(-50%) scale(0.95);
 }
 

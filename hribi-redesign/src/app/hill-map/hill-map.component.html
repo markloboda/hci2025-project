@@ -1,15 +1,15 @@
 <div class="map-container">
-    <div id="map" [class.map-with-sidebar]="selectedHills().length > 0"></div>
+  <div id="map" [class.map-with-sidebar]="selectedHills().length > 0"></div>
 
-    <div *ngIf="selectedHills().length > 0" class="sidebar">
+  <div *ngIf="selectedHills().length > 0" class="sidebar">
         
         <header>
             <h2>{{ selectedHills().length }} Hrib{{ selectedHills().length > 1 ? 'ov' : '' }} Izbranih</h2>
             <button (click)="clearSelection()" class="close-btn" title="Zapri stran">X</button>
         </header>
 
-        <div class="hill-list">
-            <div *ngFor="let hill of selectedHills()" class="hill-card">
+    <div class="hill-list">
+      <div *ngFor="let hill of selectedHills()" class="hill-card">
                 
                 <div class="hill-image-container">
                     <img src="assets/img/default.jpg" alt="{{ hill.name }}" class="hill-image">
@@ -46,5 +46,5 @@
                 </div>
             </div>
         </div>
+      </div>
     </div>
-</div>

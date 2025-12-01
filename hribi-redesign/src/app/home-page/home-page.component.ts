@@ -1,20 +1,25 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HillMapComponent } from '../hill-map/hill-map.component';
+import { HillMapPreviewComponent } from '../hill-map/hill-map-preview.component';
 import { SearchWidgetComponent } from '../search-widget/search-widget.component';
 
 @Component({
   selector: 'app-home-page',
-  imports: [CommonModule, HillMapComponent, SearchWidgetComponent],
+  standalone: true,
+  imports: [CommonModule, HillMapPreviewComponent, SearchWidgetComponent],
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.css'
+  styleUrls: ['./home-page.component.css']
 })
-export class HomePageComponent {
+export class HomePageComponent implements OnInit {
   scrolled = false;
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
     this.scrolled = window.scrollY > 50; 
+  }
+
+  ngOnInit() {
+    console.log('HomePageComponent loaded');
   }
 
 }

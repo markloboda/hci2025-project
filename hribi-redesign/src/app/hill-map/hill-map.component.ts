@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, signal, inject } from '@angular/core'; // ADD signal
+import { Component, AfterViewInit, signal, inject, Input } from '@angular/core'; // ADD signal
 import * as L from 'leaflet';
 import { icon, Marker } from 'leaflet';
 import 'leaflet.markercluster';
@@ -17,9 +17,10 @@ type HillMarker = L.Marker & {
   standalone: true, // Assuming standalone for simplicity
   imports: [CommonModule],
   templateUrl: './hill-map.component.html',
-  styleUrl: './hill-map.component.css'
+    styleUrls: ['./hill-map.component.css']
 })
 export class HillMapComponent implements AfterViewInit {
+    @Input() showPlaceholder = true;
     private router = inject(Router);
     // ... existing properties ...
     hills = hills;

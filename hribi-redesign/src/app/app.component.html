@@ -1,18 +1,25 @@
 <!-- Navigation Bar -->
 <header class="navbar" [class.nav-scrolled]="scrolled">
   <div class="nav-left">
-    <img
-      [src]="scrolled ? 'assets/logo-light.png' : 'assets/logo.png'"
-      alt="Hribi.net logo"
-      class="logo"
-    />
+    <a routerLink="/home" class="logo-link" aria-label="Hribi home">
+      <img
+        [src]="'assets/logo-light.png'"
+        alt="Hribi.net logo"
+        class="logo"
+      />
+    </a>
   </div>
 
   <nav class="nav-right roboto-100">
-    <a href="#">Novice</a>
-    <a href="#">Zemljevid</a>
-    <a href="#">Vreme</a>
-    <a href="#">Kamere</a>
+    <a routerLink="/news">Novice</a>
+    <a routerLink="/map">Zemljevid</a>
+    <a routerLink="/weather">Vreme</a>
+    <a routerLink="/cameras">Kamere</a>
+    <!-- Theme toggle -->
+    <!-- <button class="theme-toggle" (click)="toggleTheme()" [attr.aria-pressed]="darkMode" aria-label="Toggle light/dark theme">
+      <span *ngIf="!darkMode">🌙</span>
+      <span *ngIf="darkMode">☀️</span>
+    </button> -->
   </nav>
 </header>
 <app-search-widget *ngIf="showSearch" mode="floating" class="show"></app-search-widget>

@@ -1,0 +1,14 @@
+<div class="news-page">
+  <h1>Novice</h1>
+
+  <div class="news-grid">
+    <article class="news-item" *ngFor="let item of news">
+      <h2>{{ item.title }}</h2>
+      <div *ngIf="item.location || item.date" class="meta">{{ item.location }} <span *ngIf="item.location">·</span> {{ item.date }}</div>
+      <p class="excerpt">{{ item.excerpt }}</p>
+      <p *ngIf="item.details" class="meta">{{ item.details }}</p>
+      <a class="read-more" href="#">Preberi več</a>
+    </article>
+  </div>
+
+</div>

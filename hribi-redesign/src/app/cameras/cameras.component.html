@@ -1,0 +1,26 @@
+<div class="page-placeholder">
+  <h1>Kamere (Cameras)</h1>
+  <p>Live cameras near popular peaks and passes. Click an entry to open the stream.</p>
+</div>
+<!-- Preview grid: show first 3 cameras as expanded previews -->
+<div class="preview-grid">
+  <div *ngFor="let cam of cameras | slice:0:3" class="preview-card">
+    <img *ngIf="cam.url" class="cam-preview" [src]="getLiveSrc(cam)" [alt]="cam.name" (click)="open(cam.url)" />
+    <div class="preview-meta">
+      <h3>{{ cam.name }}</h3>
+      <p class="meta">{{ cam.location }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Show remaining cameras (skip the first 3 already shown in preview) -->
+<div class="cameras-list">
+  <div *ngFor="let cam of cameras | slice:3" class="camera-card">
+    <h3>{{ cam.name }}</h3>
+    <p class="meta">{{ cam.location }}</p>
+    <p class="desc">{{ cam.description }}</p>
+    <div class="actions">
+      <a [href]="cam.url" target="_blank" rel="noopener">Open in new tab</a>
+    </div>
+  </div>
+</div>

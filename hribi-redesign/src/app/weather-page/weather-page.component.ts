@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-weather-page',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './weather-page.component.html',
-  styleUrl: './weather-page.component.css'
+  styleUrls: ['./weather-page.component.css']
 })
 export class WeatherPageComponent {
 

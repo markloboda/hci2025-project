@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-search-widget',
+  standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './search-widget.component.html',
-  styleUrl: './search-widget.component.css'
+  styleUrls: ['./search-widget.component.css']
 })
 export class SearchWidgetComponent {
   @Input() mode: 'hero' | 'floating' = 'hero';

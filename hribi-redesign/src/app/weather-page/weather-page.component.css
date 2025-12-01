@@ -1,0 +1,43 @@
+/* Weather page styles */
+.weather-page { max-width: 1000px; margin: 0 auto; padding: 22px; color: var(--text-color); }
+.weather-header { margin-bottom: 12px; }
+.weather-header h1 { margin: 0; color: var(--accent-color); font-size: 28px; }
+.weather-header .meta { color: var(--muted-color); font-size: 13px; margin-top: 6px; }
+
+.card { background: var(--card-bg); border-radius: 12px; padding: 16px; margin: 12px 0; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+.warning { background: rgba(255,200,0,0.06); padding: 8px; border-radius: 8px; margin-top: 8px; }
+
+.forecast-7day .days-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 12px; }
+.forecast-7day .day { background: rgba(255,255,255,0.02); border-radius: 8px; padding: 10px; text-align: center; }
+.day-name { font-weight: 700; margin-bottom: 6px; color: var(--text-color); }
+.day-desc { font-size: 13px; color: var(--muted-color); margin-bottom: 6px; }
+.temp { font-weight: 700; color: var(--accent-color); }
+
+.forecast-images .images-placeholder {
+	/* allow the placeholder to grow with content; center the image */
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px;
+	color: var(--muted-color);
+	background: var(--placeholder-bg);
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.forecast-images .images-placeholder .radar-img {
+	width: 100%;
+	height: auto; /* keep intrinsic aspect ratio */
+	max-height: 420px; /* limit height so it doesn't push too far */
+	object-fit: contain;
+	display: block;
+	border-radius: 6px;
+}
+
+@media (max-width: 900px) {
+	.forecast-7day .days-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 540px) {
+	.forecast-7day .days-grid { grid-template-columns: repeat(2, 1fr); }
+}
