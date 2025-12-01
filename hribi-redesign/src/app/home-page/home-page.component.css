@@ -1,7 +1,6 @@
 .hero {
   position: relative;
   height: 70vh;
-  overflow: hidden; /* ensure pseudo-element stays contained */
 
   /* Background layer (dimmed at start) */
   &::before {
@@ -26,18 +25,22 @@
     filter: brightness(100%);
   }
 
-  /* Content stays bright */
-  .hero-overlay {
-    position: relative;
-    z-index: 2;                          /* above dimmed background */
-    width: 100%;
-    height: 100%;
-    padding-top: 200px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: white;
-    text-align: center;
+.hero-overlay {
+  position: relative;
+  z-index: 4;                          /* above dimmed background */
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;             /* <-- centers vertically */
+  align-items: center;
+
+  color: white;
+  text-align: center;
+
+  padding-top: 0;                       /* <-- remove forced offset */
+  padding-bottom: 60px;
 
     h1 {
       font-size: 54px;
