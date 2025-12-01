@@ -1,0 +1,7 @@
+.map-page {
+  padding-top: 80px; /* leave room for fixed navbar */
+}
+
+.map-page app-hill-map {
+  display: block;
+}

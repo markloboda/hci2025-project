@@ -1,7 +1,6 @@
 /* Main container – no full screen */
 .map-container {
   display: flex;
-  height: 100%;
   width: 100%;
   border-radius: 20px;
   overflow: hidden;
@@ -13,6 +12,9 @@
   min-width: 0;
   transition: width 0.3s ease-in-out;
   border-radius: 20px;
+  /* Ensure the map has a visible height for Leaflet to initialise properly */
+  min-height: 520px;
+  height: 520px;
 }
 
 /* If sidebar open */
@@ -25,7 +27,7 @@
   width: 30%;
   min-width: 300px;
   max-width: 420px;
-  background: linear-gradient(145deg, #e0f0ff, #ffffff);
+  background: linear-gradient(145deg, rgba(14,42,54,0.02), var(--card-bg));
   box-shadow: -4px 0 18px rgba(0, 0, 0, 0.1);
   padding: 25px;
   border-radius: 20px 0 0 20px;
@@ -38,13 +40,13 @@
   justify-content: space-between;
   align-items: center;
   padding-bottom: 15px;
-  border-bottom: 2px solid #d0e6ff;
+  border-bottom: 2px solid rgba(11,105,163,0.08);
 }
 
 .sidebar h2 {
   font-size: 1.5em;
   font-weight: 700;
-  color: #2c3e50;
+  color: var(--text-color);
 }
 
 /* Close button */
@@ -53,22 +55,22 @@
   border: none;
   font-size: 1.4em;
   cursor: pointer;
-  color: #4477aa;
+  color: var(--accent-color);
   transition: 0.2s;
 }
 
 .close-btn:hover {
-  color: #2c3e50;
+  color: var(--text-color);
 }
 
 /* Cards (match group-card style) */
 .hill-card {
-  background: white;
+  background: var(--card-bg);
   border-radius: 18px;
   padding: 20px;
   margin-bottom: 20px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  border: 1px solid #e0ecff;
+  border: 1px solid rgba(14,42,54,0.06);
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -79,7 +81,7 @@
 
 .hill-card h3 {
   margin: 0 0 12px;
-  color: #0984e3;
+  color: var(--accent-color);
   font-weight: 600;
 }
 
@@ -90,13 +92,13 @@
   margin-top: 10px;
   border-radius: 12px;
   border: none;
-  color: white;
+  color: var(--button-text-color);
   font-weight: 600;
   cursor: pointer;
 }
 
 .detail-btn {
-  background: linear-gradient(135deg, #74b9ff, #0984e3);
+  background: linear-gradient(135deg, rgba(116,185,255,0.95), var(--accent-color));
 }
 
 .map-btn {

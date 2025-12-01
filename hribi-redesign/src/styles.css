@@ -4,6 +4,77 @@ html, body {
   overflow-x: hidden;
 }
 
+:root {
+  --navbar-height: 72px;
+}
+
+body {
+  padding-top: var(--navbar-height);
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
+}
+
+/* simple placeholder banner for pages */
+.page-placeholder {
+  padding: 100px 20px 24px; /* leave space for fixed navbar */
+  text-align: center;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+  color: #222;
+}
+.page-placeholder h1 {
+  margin: 0 0 8px 0;
+  font-size: 28px;
+}
+.page-placeholder p {
+  margin: 0;
+  opacity: 0.85;
+}
+
+/* Ensure the hill map has visible height on the dedicated /map page */
+.map-page .map-container {
+  height: 550px; /* make the map visible and similar to home preview */
+}
+
+/* Theme variables (light is default) */
+:root {
+  --background: #ffffff;
+  --text-color: #222222;
+  --nav-bg: rgba(255,255,255,0.97);
+  --nav-bg-scrolled: rgba(255,255,255,0.95);
+  --nav-link-color: #111111;
+  --nav-link-color-scrolled: #0b2030;
+}
+
+/* Dark theme overrides */
+.dark-theme {
+  --background: #06121a;
+  --text-color: #e9f3f7;
+  --nav-bg: rgba(6,18,26,0.95);
+  --nav-bg-scrolled: rgba(6,18,26,0.98);
+  --nav-link-color: #e6f7ff;
+  --nav-link-color-scrolled: #ffffff;
+}
+
+body {
+  background: var(--background);
+  color: var(--text-color);
+}
+
+/* Additional UI variables */
+:root {
+  --card-bg: #ffffff;
+  --muted-color: #556066;
+  --accent-color: #0b69a3;
+  --button-text-color: #ffffff;
+  --placeholder-bg: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+}
+
+.dark-theme {
+  --card-bg: #0e2a36;
+  --muted-color: #9fb6c6;
+  --accent-color: #2bb673;
+  --button-text-color: #051217;
+  --placeholder-bg: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
 }

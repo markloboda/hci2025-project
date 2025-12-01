@@ -1,36 +1,41 @@
+<div *ngIf="showPlaceholder" class="page-placeholder">
+  <h1>Zemljevid (Map)</h1>
+  <p>This is a placeholder map page. Add map or interactive content here.</p>
+</div>
+
 <div class="map-container">
-    <div id="map" [class.map-with-sidebar]="selectedHills().length > 0"></div>
+  <div id="map" [class.map-with-sidebar]="selectedHills().length > 0"></div>
 
-    <div *ngIf="selectedHills().length > 0" class="sidebar">
+  <div *ngIf="selectedHills().length > 0" class="sidebar">
         
-        <header>
-            <h2>{{ selectedHills().length }} Hill{{ selectedHills().length > 1 ? 's' : '' }} Selected</h2>
-            <button (click)="clearSelection()" class="close-btn" title="Close Sidebar">X</button>
-        </header>
+    <header>
+      <h2>{{ selectedHills().length }} Hill{{ selectedHills().length > 1 ? 's' : '' }} Selected</h2>
+      <button (click)="clearSelection()" class="close-btn" title="Close Sidebar">X</button>
+    </header>
 
-        <div class="hill-list">
-            <div *ngFor="let hill of selectedHills()" class="hill-card">
+    <div class="hill-list">
+      <div *ngFor="let hill of selectedHills()" class="hill-card">
                 
-                <h3>{{ hill.name }}</h3>
+        <h3>{{ hill.name }}</h3>
                 
-                <div class="info-grid">
-                    <p><strong>Height:</strong> {{ hill.height }}m</p>
-                    <p><strong>Range:</strong> {{ hill.mountainRange }}</p>
-                    <p><strong>Type:</strong> {{ hill.type }}</p>
-                    <p><strong>Lat/Lon:</strong> {{ hill.lat | number:'1.2-2' }}, {{ hill.lon | number:'1.2-2' }}</p>
-                </div>
-                <div class="card-actions">
-                    <button (click)="goToHillPage(hill.id)" class="detail-btn">
-                        <i class="fa-solid fa-circle-info"></i>
-                        View Details
-                    </button>
-
-                    <button (click)="flyToHill(hill)" class="map-btn">
-                        <i class="fa-solid fa-location-arrow"></i>
-                        Zoom on Map
-                    </button>
-                </div>
-            </div>
+        <div class="info-grid">
+          <p><strong>Height:</strong> {{ hill.height }}m</p>
+          <p><strong>Range:</strong> {{ hill.mountainRange }}</p>
+          <p><strong>Type:</strong> {{ hill.type }}</p>
+          <p><strong>Lat/Lon:</strong> {{ hill.lat | number:'1.2-2' }}, {{ hill.lon | number:'1.2-2' }}</p>
         </div>
+        <div class="card-actions">
+          <button (click)="goToHillPage(hill.id)" class="detail-btn">
+            <i class="fa-solid fa-circle-info"></i>
+            View Details
+          </button>
+
+          <button (click)="flyToHill(hill)" class="map-btn">
+            <i class="fa-solid fa-location-arrow"></i>
+            Zoom on Map
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
 </div>

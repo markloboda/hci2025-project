@@ -509,6 +509,50 @@
   }
 }
 
+/* Dark theme overrides for hill page (applies when root has .dark-theme) */
+.dark-theme .hill-page-container {
+  background-color: var(--background);
+  color: var(--text-color);
+}
+
+.dark-theme .group-card,
+.dark-theme .route-card,
+.dark-theme .route-details,
+.dark-theme .route-basic-info,
+.dark-theme .route-description,
+.dark-theme .route-comments,
+.dark-theme .comment-item {
+  background: var(--card-bg);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  border-color: rgba(255,255,255,0.03);
+  color: var(--text-color);
+}
+
+.dark-theme .group-card::before { background: rgba(43,203,115,0.12); }
+.dark-theme .group-card::after { background: rgba(43,203,115,0.08); }
+
+.dark-theme .hill-name { color: var(--text-color); }
+.dark-theme .info-content p, .dark-theme .route-summary h3, .dark-theme .route-basic-info p, .dark-theme .comment-item p {
+  color: var(--text-color);
+}
+
+.dark-theme .time-box { background-color: rgba(255,255,255,0.03); color: var(--text-color); }
+.dark-theme .current-weather { color: var(--text-color); }
+.dark-theme .forecast-day { background: rgba(255,255,255,0.02); }
+.dark-theme .day-name, .dark-theme .temp { color: var(--text-color); }
+
+.dark-theme .thumb { background-color: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.04); }
+
+.dark-theme .route-header { background: rgba(255,255,255,0.02); }
+.dark-theme .route-toggle { color: var(--accent-color); }
+.dark-theme .route-time, .dark-theme .route-difficulty, .dark-theme .route-height { color: var(--accent-color); border-color: rgba(116,185,255,0.12); }
+
+.dark-theme .route-description h4, .dark-theme .route-comments h4 { color: var(--text-color); }
+.dark-theme .route-description p, .dark-theme .route-basic-info strong { color: var(--text-color); }
+
+.dark-theme .comment-item { border-left-color: rgba(43,182,115,0.12); }
+
+
 /* Map Placeholder Styles */
 .map-placeholder {
   text-align: center;
