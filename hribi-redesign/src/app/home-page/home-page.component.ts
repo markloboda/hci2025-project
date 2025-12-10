@@ -15,7 +15,8 @@ export class HomePageComponent implements OnInit {
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    this.scrolled = window.scrollY > 50; 
+    const viewportHeight = window.innerHeight;
+    this.scrolled = window.scrollY > (viewportHeight * 0.1);
   }
 
   ngOnInit() {

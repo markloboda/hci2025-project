@@ -17,7 +17,6 @@ export class AppComponent {
   readonly routeHome = RouteName.home;
   scrolled = false;
   showSearch = false;
-  private readonly SHOW_SEARCH_AFTER = 400;
   // router injection for programmatic navigation (used by goHome)
   private router = inject(Router);
   // darkMode = false;
@@ -81,7 +80,7 @@ export class AppComponent {
 
   @HostListener('window:scroll', [])
   onWindowScroll() {
-    this.scrolled = window.scrollY > 50; 
-    this.showSearch = window.scrollY > this.SHOW_SEARCH_AFTER;
+    const viewportHeight = window.innerHeight;
+    this.showSearch = window.scrollY > (viewportHeight * 0.3);
   }
 }

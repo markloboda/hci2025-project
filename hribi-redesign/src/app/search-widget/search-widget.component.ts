@@ -21,7 +21,8 @@ export class SearchWidgetComponent {
     "Vreme na Stolu",
     "Kamera v živo pri Kranjski Gori",
     "Gorske verige v Sloveniji",
-    "Lahki pohodi pod 2h"
+    "Lahki pohodi pod 2h",
+    "Planinske koče v Julijskih Alpah"
   ];
 
   onFocus() {

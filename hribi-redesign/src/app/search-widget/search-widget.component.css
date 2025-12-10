@@ -11,8 +11,8 @@
   backdrop-filter: blur(14px);
   border-radius: 40px;
   padding: 12px 20px;
-
   box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  z-index: 99999;
 }
 
 /* icon — perfectly centered */
@@ -46,9 +46,6 @@
   display: none;
 }
 
-/* ---------------------------------------------------------------- */
-/* ** NEW STYLE TO TARGET AND CLEAN UP THE SEARCH BUTTON ** */
-/* ---------------------------------------------------------------- */
 .search-wrapper button {
   border: none;
   background: transparent;
@@ -61,8 +58,6 @@
   align-items: center;
   justify-content: center;
 }
-/* ---------------------------------------------------------------- */
-/* ---------------------------------------------------------------- */
 
 /* ----- hero mode (centered on homepage) ------ */
 .search-wrapper.hero {
@@ -75,7 +70,7 @@
   top: 80px;
   left: 50%;
   transform: translateX(-50%);
-  z-index: 5000;
+  z-index: 99999;
   opacity: 0;
 }
 
@@ -96,7 +91,7 @@
   box-shadow: 0 6px 24px rgba(0,0,0,0.18);
   padding: 6px 0;
   animation: fadeIn 0.15s ease-out;
-  z-index: 4;
+  z-index: 99999;
 }
 
 .dropdown-item {
