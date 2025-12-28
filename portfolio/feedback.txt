@@ -1,0 +1,33 @@
+Prva:
+• Gumb za nazaj na telefonu
+• Fajn da je zemljevid (da vidis kje si ti, kaj je blizu tebe)
+• Tvojo lokacijo gumb na naprednem iskanju
+• Če izberes pot ti pokaze na zemljevidu lokacijo
+• Toggle vreme da ti pokaze vreme na zemljevidu
+
+Druga:
+• Search bar za vreme
+• Novice so fajn (novica za določeno lokacijo ko jo isces (nevem zravn poti))
+• Navigation bar ko dobis rezultate
+• Vsaka gora ima galerijo slik kje uporabniki objavlajo
+• Ko kliknes 20 te pribliza in ti pokaze nove rezultate
+• Težavnost pomembna pri poteh in iskanju/filtriranju
+• Časovno obdobje (zima,poletje) na poteh
+• Rezultati iskanja so majhni na desktopu
+
+Tretja:
+• Namesto redirecta do seznama kartic vrhov, je na zgornji polovici zemljevid, spodaj pa skrcene kartice
+• Thumbnaili kartic so lahko scrollable slike
+• Prikaz poti na zemljevidu
+
+Četrta:
+• ni ji vsec puscica🤬
+• uporabimo barve iz logoja
+• barvna usklajenost
+• lahko dodamo preberi vec button za seznam vrhov
+
+Peta:
+• Na podrobnem iskanju se ti pokazejo predlogi ob kliku na filter
+• Kartice so prevec prazne
+• Spremenit logo na transparenten, uredit sloge 
+• Zmanjsat gumb za podrobno iskanje
