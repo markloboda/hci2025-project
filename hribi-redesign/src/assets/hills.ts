@@ -1,3 +1,6 @@
+import gpsManifest from './gps_manifest.json';
+import imgManifest from './img_manifest.json';
+
 export interface Comment {
     id: number;
     time: Date;          // Time of the comment
@@ -24,13 +27,13 @@ export interface Route {
     start: string;
     end: string;
     name: string;
-    time: string;           
+    time: string;
     difficulty: 'Easy' | 'Medium' | 'Hard' | 'Extreme';
-    heightDiff: number;     
-    summerGear: string;     
-    winterGear: string;     
-    images: Image[];        
-    comments: Comment[];   
+    heightDiff: number;
+    summerGear: string;
+    winterGear: string;
+    images: Image[];
+    comments: Comment[];
     descriptionOfStart: string;
     descriptionOfPath: string;
 }
@@ -44,20 +47,21 @@ export interface Hill {
     country: string;
     mountainRange: string;
     height: number;
-    type: string; 
-    popularity: number; 
+    type: string;
+    popularity: number;
     images: Image[];
     routes: Route[];
     description: string;
     webcams: Webcam[];
     comments: Comment[];
+    gps: string[];
 }
 
 // --- HELPER FUNCTION TO INFER PROPERTIES AND ADD PLACEHOLDER DATA ---
 function createHillData(simpleHill: { name: string, lat: number, lon: number }, index: number, mountainRange: string): Hill {
     let name = simpleHill.name.replace(/\s*\(.*\)/, ''); // Clean up name
     let alt = 0;
-    
+
     // Assign a reasonable height based on some known peaks to make the data more realistic
     if (name.includes('Triglav')) alt = 2864;
     else if (name.includes('Mangart')) alt = 2679;
@@ -80,11 +84,34 @@ function createHillData(simpleHill: { name: string, lat: number, lon: number }, 
         type: simpleHill.name.includes('Peak') || simpleHill.name.includes('Vrh') ? 'Peak' : 'Hill',
         description: `This is the description for ${simpleHill.name}. Located in the ${mountainRange}.`,
         popularity: Math.floor(Math.random() * 5) + 1, // 1 to 5 stars
-        images: [{ name: `${name} View`, url: `/assets/img/${name.toLowerCase().replace(/\s/g, '-')}.jpg`, alt: `View of ${name}` }],
+        images: (() => {
+            const matches = imgManifest.filter(file => {
+                const firstDashIndex = file.indexOf('-');
+                if (firstDashIndex === -1) return false;
+                const hillPartInFile = file.substring(0, firstDashIndex).toLowerCase();
+                const normalize = (s: string) => s.replace(/[\s_]/g, '').toLowerCase();
+                return normalize(hillPartInFile) === normalize(name);
+            });
+            if (matches.length > 0) {
+                return matches.map(file => {
+                    const suffix = file.substring(file.indexOf('-') + 1, file.lastIndexOf('.'));
+                    return {
+                        name: `${name} ${suffix}`,
+                        url: `/assets/img/${file}`,
+                        alt: `${name} ${suffix}`
+                    };
+                });
+            }  // default image if no match
+            return [{
+                name: `${name} View`,
+                url: '/assets/img/default.jpg',
+                alt: `Default view of ${name}`
+            }];
+        })(),
         webcams: [],
         comments: [],
         routes: [
-             // Add one placeholder route for complexity
+            // Add one placeholder route for complexity
             {
                 id: 1,
                 name: `Standard Route to ${name}`,
@@ -101,6 +128,13 @@ function createHillData(simpleHill: { name: string, lat: number, lon: number }, 
                 descriptionOfPath: 'A well-marked path, moderate incline.'
             }
         ],
+        gps: gpsManifest.filter(file => {
+            const firstDashIndex = file.indexOf('-');
+            if (firstDashIndex === -1) return false;
+            const hillPartInFile = file.substring(0, firstDashIndex).toLowerCase();
+            const normalize = (s: string) => s.replace(/[\s_]/g, '').toLowerCase();
+            return normalize(hillPartInFile) === normalize(name);
+        })
     };
 }
 

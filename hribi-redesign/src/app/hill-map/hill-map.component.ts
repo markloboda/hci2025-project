@@ -56,50 +56,25 @@ export class HillMapComponent implements AfterViewInit {
     // name of the path.
     // Do not forget to add the file to the gps_manifest.json file.
     downloadGPX(hill: Hill) {
-        // Sanitize the hill name: remove content in parentheses, lowercase, and trim
-        const cleanHillName = hill.name.replace(/\s*\(.*\)/, '').trim().toLowerCase();
+        if (!hill.gps || hill.gps.length === 0) {
+            alert('No GPX files found for ' + hill.name);
+            return;
+        }
 
-        fetch('assets/gps_manifest.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to load manifest');
-                }
-                return response.json();
-            })
-            .then(async (files: string[]) => {
-                // The user clarified: hill name is from the start of the file to the first '-'
-                const matchingFiles = files.filter(file => {
-                    const firstDashIndex = file.indexOf('-');
-                    if (firstDashIndex === -1) return false;
+        const zip = new JSZip();
 
-                    const hillPartInFile = file.substring(0, firstDashIndex).toLowerCase();
+        // Fetch all files and add to zip
+        const fetchPromises = hill.gps.map((file: string) =>
+            fetch(`assets/gps/${file}`)
+                .then(res => res.blob())
+                .then(blob => {
+                    zip.file(file, blob);
+                })
+        );
 
-                    // Simple normalization for multi-word hills: 
-                    // remove spaces/underscores for comparison if they exist
-                    const normalize = (s: string) => s.replace(/[\s_]/g, '');
-
-                    return normalize(hillPartInFile) === normalize(cleanHillName);
-                });
-
-                if (matchingFiles.length === 0) {
-                    alert('No GPX files found for ' + hill.name);
-                    return;
-                }
-
-                const zip = new JSZip();
-
-                // Fetch all files and add to zip
-                const fetchPromises = matchingFiles.map(file =>
-                    fetch(`assets/gps/${file}`)
-                        .then(res => res.blob())
-                        .then(blob => {
-                            zip.file(file, blob);
-                        })
-                );
-
-                await Promise.all(fetchPromises);
-
-                // Generate zip and download
+        Promise.all(fetchPromises)
+            .then(async () => {
+                const cleanHillName = hill.name.replace(/\s*\(.*\)/, '').trim().toLowerCase();
                 const content = await zip.generateAsync({ type: 'blob' });
                 const link = document.createElement('a');
                 link.href = URL.createObjectURL(content);

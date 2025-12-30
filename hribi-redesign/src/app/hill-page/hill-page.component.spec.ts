@@ -10,7 +10,7 @@ describe('HillPageComponent', () => {
     await TestBed.configureTestingModule({
       imports: [HillPageComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(HillPageComponent);
     component = fixture.componentInstance;

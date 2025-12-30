@@ -4,7 +4,8 @@
   padding: 30px;
   max-width: 1400px;
   margin: 0 auto;
-  background-color: #f4f8fb; /* soft page background */
+  background-color: #f4f8fb;
+  /* soft page background */
 }
 
 .hill-name {
@@ -17,11 +18,10 @@
 
 /* --- Unified Group Card --- */
 .group-card {
-  background: linear-gradient(
-    145deg,
-    #e0f0ff,
-    #ffffff
-  ); /* unified light blue gradient */
+  background: linear-gradient(145deg,
+      #e0f0ff,
+      #ffffff);
+  /* unified light blue gradient */
   border-radius: 25px;
   padding: 25px 30px;
   margin-bottom: 30px;
@@ -62,7 +62,7 @@
 }
 
 /* Ensure content is above shapes */
-.group-card > * {
+.group-card>* {
   position: relative;
   z-index: 1;
 }
@@ -75,9 +75,9 @@
   margin-bottom: 30px;
 }
 
-.top-section > .basic-info-card,
-.top-section > .weather-card,
-.top-section > .gallery-card {
+.top-section>.basic-info-card,
+.top-section>.weather-card,
+.top-section>.gallery-card {
   flex: 1 1 300px;
 }
 
@@ -119,7 +119,7 @@
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.3) 2px, transparent 2px);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 2px, transparent 2px);
   background-size: 30px 30px;
   animation: float 20s ease-in-out infinite;
   pointer-events: none;
@@ -133,7 +133,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
+  background: linear-gradient(45deg, transparent 40%, rgba(255, 255, 255, 0.1) 50%, transparent 60%);
   background-size: 100px 100px;
   animation: shine 8s linear infinite;
   pointer-events: none;
@@ -141,15 +141,20 @@
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px) translateX(0px);
   }
+
   25% {
     transform: translateY(-10px) translateX(5px);
   }
+
   50% {
     transform: translateY(-5px) translateX(-5px);
   }
+
   75% {
     transform: translateY(-15px) translateX(10px);
   }
@@ -159,6 +164,7 @@
   0% {
     background-position: -100px 0;
   }
+
   100% {
     background-position: 200px 0;
   }
@@ -175,7 +181,7 @@
 .current-weather-icon img {
   width: 80px;
   height: 80px;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 .current-weather-info {
@@ -185,12 +191,19 @@
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% {
+
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
     transform: translateY(0);
   }
+
   40% {
     transform: translateY(-5px);
   }
+
   60% {
     transform: translateY(-3px);
   }
@@ -271,11 +284,99 @@
 }
 
 .thumb {
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: 100px;
   background-color: #ddd;
   border: 1px solid #ccc;
   border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.thumb:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-color: #74b9ff;
+}
+
+/* --- Image Modal Overlay --- */
+.image-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  backdrop-filter: blur(5px);
+  cursor: pointer;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  position: relative;
+  max-width: 90%;
+  max-height: 90%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: default;
+}
+
+.modal-content img {
+  max-width: 100%;
+  max-height: 85vh;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  border: 4px solid white;
+}
+
+.modal-caption {
+  margin-top: 15px;
+  color: white;
+  font-size: 1.25em;
+  font-weight: 500;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.close-modal-btn {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 2em;
+  cursor: pointer;
+  padding: 10px;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.close-modal-btn:hover {
+  transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+  .close-modal-btn {
+    top: -50px;
+    right: 0;
+  }
 }
 
 /* Routes Section - Updated */
@@ -366,7 +467,7 @@
   transition: max-height 0.2s ease-in;
 }
 
-.route-details > div {
+.route-details>div {
   padding: 25px;
   border-top: 1px solid #f1f3f4;
 }
@@ -501,9 +602,11 @@
   0% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.1);
   }
+
   100% {
     transform: scale(1);
   }
@@ -523,34 +626,81 @@
 .dark-theme .route-comments,
 .dark-theme .comment-item {
   background: var(--card-bg);
-  box-shadow: 0 6px 18px rgba(0,0,0,0.25);
-  border-color: rgba(255,255,255,0.03);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  border-color: rgba(255, 255, 255, 0.03);
   color: var(--text-color);
 }
 
-.dark-theme .group-card::before { background: rgba(43,203,115,0.12); }
-.dark-theme .group-card::after { background: rgba(43,203,115,0.08); }
+.dark-theme .group-card::before {
+  background: rgba(43, 203, 115, 0.12);
+}
 
-.dark-theme .hill-name { color: var(--text-color); }
-.dark-theme .info-content p, .dark-theme .route-summary h3, .dark-theme .route-basic-info p, .dark-theme .comment-item p {
+.dark-theme .group-card::after {
+  background: rgba(43, 203, 115, 0.08);
+}
+
+.dark-theme .hill-name {
   color: var(--text-color);
 }
 
-.dark-theme .time-box { background-color: rgba(255,255,255,0.03); color: var(--text-color); }
-.dark-theme .current-weather { color: var(--text-color); }
-.dark-theme .forecast-day { background: rgba(255,255,255,0.02); }
-.dark-theme .day-name, .dark-theme .temp { color: var(--text-color); }
+.dark-theme .info-content p,
+.dark-theme .route-summary h3,
+.dark-theme .route-basic-info p,
+.dark-theme .comment-item p {
+  color: var(--text-color);
+}
 
-.dark-theme .thumb { background-color: rgba(255,255,255,0.02); border-color: rgba(255,255,255,0.04); }
+.dark-theme .time-box {
+  background-color: rgba(255, 255, 255, 0.03);
+  color: var(--text-color);
+}
 
-.dark-theme .route-header { background: rgba(255,255,255,0.02); }
-.dark-theme .route-toggle { color: var(--accent-color); }
-.dark-theme .route-time, .dark-theme .route-difficulty, .dark-theme .route-height { color: var(--accent-color); border-color: rgba(116,185,255,0.12); }
+.dark-theme .current-weather {
+  color: var(--text-color);
+}
 
-.dark-theme .route-description h4, .dark-theme .route-comments h4 { color: var(--text-color); }
-.dark-theme .route-description p, .dark-theme .route-basic-info strong { color: var(--text-color); }
+.dark-theme .forecast-day {
+  background: rgba(255, 255, 255, 0.02);
+}
 
-.dark-theme .comment-item { border-left-color: rgba(43,182,115,0.12); }
+.dark-theme .day-name,
+.dark-theme .temp {
+  color: var(--text-color);
+}
+
+.dark-theme .thumb {
+  background-color: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.04);
+}
+
+.dark-theme .route-header {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.dark-theme .route-toggle {
+  color: var(--accent-color);
+}
+
+.dark-theme .route-time,
+.dark-theme .route-difficulty,
+.dark-theme .route-height {
+  color: var(--accent-color);
+  border-color: rgba(116, 185, 255, 0.12);
+}
+
+.dark-theme .route-description h4,
+.dark-theme .route-comments h4 {
+  color: var(--text-color);
+}
+
+.dark-theme .route-description p,
+.dark-theme .route-basic-info strong {
+  color: var(--text-color);
+}
+
+.dark-theme .comment-item {
+  border-left-color: rgba(43, 182, 115, 0.12);
+}
 
 
 /* Map Placeholder Styles */
@@ -901,9 +1051,12 @@
 }
 
 @keyframes mapPulse {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: scale(1);
   }
+
   50% {
     transform: scale(1.1);
   }

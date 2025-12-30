@@ -21,6 +21,7 @@ export class HillPageComponent implements OnInit {
   currentWeather: any = null;
   expandedRoutes: boolean[] = [];
   selectedRouteIndex: number | null = null;
+  selectedImage: any = null;
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -92,6 +93,13 @@ export class HillPageComponent implements OnInit {
 
   selectRoute(index: number): void {
     this.selectedRouteIndex = index;
+    // Wait for the next tick to ensure the DOM has updated with the route details section
+    setTimeout(() => {
+      const element = document.getElementById('map');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 0);
     // TODO: Here you'll add map highlighting logic later
     console.log('Selected route:', this.hillData.routes[index].name);
   }
@@ -99,5 +107,13 @@ export class HillPageComponent implements OnInit {
   deselectRoute(): void {
     this.selectedRouteIndex = null;
     // TODO: Here you'll add map unhighlighting logic later
+  }
+
+  openImageModal(image: any): void {
+    this.selectedImage = image;
+  }
+
+  closeImageModal(): void {
+    this.selectedImage = null;
   }
 }

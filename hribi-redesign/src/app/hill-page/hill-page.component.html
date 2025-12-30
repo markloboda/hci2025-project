@@ -71,12 +71,8 @@
         No images available.
       </div>
       <div class="thumbnail-row" *ngIf="hillData.images.length > 0">
-        <div
-          class="thumb"
-          *ngFor="let image of hillData.images"
-          [title]="image.name"
-          [style.backgroundImage]="'url(' + image.url + ')'"
-        ></div>
+        <div class="thumb" *ngFor="let image of hillData.images" [title]="image.name"
+          [style.backgroundImage]="'url(' + image.url + ')'" (click)="openImageModal(image)"></div>
       </div>
     </div>
   </div>
@@ -90,7 +86,7 @@
   <!-- Map and Routes Section -->
   <div class="map-routes-section">
     <!-- Map -->
-    <div class="map-card card-panel group-card">
+    <div id="map" class="map-card card-panel group-card">
       <h2>🗺️ Zemljevid</h2>
       <div class="map-placeholder">
         <div class="map-icon">🗺️</div>
@@ -114,10 +110,8 @@
         Ni navedenih poti.
       </div>
       <div class="routes-list">
-        <div *ngFor="let route of hillData.routes; let i = index"
-             class="route-item"
-             [class.selected]="selectedRouteIndex === i"
-             (click)="selectRoute(i)">
+        <div *ngFor="let route of hillData.routes; let i = index" class="route-item"
+          [class.selected]="selectedRouteIndex === i" (click)="selectRoute(i)">
           <div class="route-summary">
             <h3>{{ route.name }}</h3>
             <div class="route-quick-info">
@@ -135,7 +129,8 @@
   </div>
 
   <!-- Route Details (Expanded when a route is selected) -->
-  <div class="route-details-section group-card" *ngIf="selectedRouteIndex !== null && hillData.routes[selectedRouteIndex]">
+  <div id="route-details" class="route-details-section group-card"
+    *ngIf="selectedRouteIndex !== null && hillData.routes[selectedRouteIndex]">
     <h2>📋 Podrobnosti poti: {{ hillData.routes[selectedRouteIndex].name }}</h2>
     <div class="route-details-content">
       <div class="route-basic-info">
@@ -181,8 +176,7 @@
     </div>
     <div *ngFor="let webcam of hillData.webcams">
       <p>
-        <strong>{{ webcam.name }}</strong
-        >: <a [href]="webcam.url" target="_blank">{{ webcam.url }}</a>
+        <strong>{{ webcam.name }}</strong>: <a [href]="webcam.url" target="_blank">{{ webcam.url }}</a>
       </p>
     </div>
   </div>
@@ -198,6 +192,14 @@
         <strong>{{ comment.user }}</strong> on {{ comment.time | date }}:
         {{ comment.text }}
       </p>
+    </div>
+  </div>
+
+  <div class="image-modal-overlay" *ngIf="selectedImage" (click)="closeImageModal()">
+    <div class="modal-content">
+      <img [src]="selectedImage.url" [alt]="selectedImage.alt">
+      <div class="modal-caption">{{ selectedImage.name }}</div>
+      <button class="close-modal-btn" (click)="closeImageModal()">✕</button>
     </div>
   </div>
 </div>
