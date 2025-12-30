@@ -1,7 +1,8 @@
 /* Main container – FIX: Must have a fixed height if not inheriting one */
 .map-container {
     display: flex;
-    height: 550px; /* FIX: Set a dedicated height for the map to render */
+    height: 550px;
+    /* FIX: Set a dedicated height for the map to render */
     width: 100%;
     border-radius: 20px;
     overflow: hidden;
@@ -31,7 +32,7 @@
     border-radius: 20px 0 0 20px;
     overflow-y: auto;
     /* Redesign: Use flexbox for internal layout */
-    display: flex; 
+    display: flex;
     flex-direction: column;
 }
 
@@ -41,7 +42,8 @@
     justify-content: space-between;
     align-items: center;
     padding-bottom: 15px;
-    margin-bottom: 20px; /* Redesign: Spacing below header */
+    margin-bottom: 20px;
+    /* Redesign: Spacing below header */
     border-bottom: 2px solid #d0e6ff;
 }
 
@@ -76,25 +78,27 @@
     background: white;
     border-radius: 18px;
     padding: 20px;
-    margin-bottom: 25px; /* Redesign: Increased spacing between cards */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    margin-bottom: 25px;
+    /* Redesign: Increased spacing between cards */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     border: 1px solid #e0ecff;
     transition: transform 0.2s, box-shadow 0.2s;
-    overflow: hidden; 
+    overflow: hidden;
     /* Redesign: Use flexbox for card content */
-    display: flex; 
+    display: flex;
     flex-direction: column;
 }
 
 .hill-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
 }
 
 /* NEW: Hill Image Styling */
 .hill-image-container {
     width: calc(100% + 40px);
-    margin: -20px -20px 15px -20px; /* Push container flush with card edges */
+    margin: -20px -20px 15px -20px;
+    /* Push container flush with card edges */
     height: 120px;
     overflow: hidden;
     border-radius: 18px 18px 0 0;
@@ -115,7 +119,7 @@
 .hill-card h3 {
     margin: 0 0 10px;
     color: #0984e3;
-    font-weight: 700; 
+    font-weight: 700;
     font-size: 1.3em;
 }
 
@@ -123,11 +127,11 @@
 .info-grid {
     display: flex;
     justify-content: space-between;
-    gap: 10px; 
-    margin-bottom: 15px; 
+    gap: 10px;
+    margin-bottom: 15px;
     color: #555;
     font-size: 0.95em;
-    flex-wrap: wrap; 
+    flex-wrap: wrap;
 }
 
 .info-grid p {
@@ -145,14 +149,16 @@
 
 /* Button styling */
 .card-actions {
-    margin-top: auto; /* Redesign: Push actions to the bottom */
+    margin-top: auto;
+    /* Redesign: Push actions to the bottom */
     padding-top: 15px;
-    border-top: 1px solid #f0f4f8; 
+    border-top: 1px solid #f0f4f8;
 }
 
 .card-actions button {
     width: 100%;
-    padding: 12px 14px; /* Redesign: Slightly more padding */
+    padding: 12px 14px;
+    /* Redesign: Slightly more padding */
     margin-top: 10px;
     border-radius: 12px;
     border: none;
@@ -160,11 +166,11 @@
     font-weight: 600;
     cursor: pointer;
     /* Redesign: Use flexbox for centering text and icon */
-    display: flex; 
+    display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px; 
-    font-size: 1em; 
+    gap: 8px;
+    font-size: 1em;
     transition: background 0.2s, transform 0.1s;
 }
 
@@ -175,6 +181,7 @@
 .detail-btn {
     background: linear-gradient(135deg, #74b9ff, #0984e3);
 }
+
 .detail-btn:hover {
     background: linear-gradient(135deg, #60adff, #0773c2);
 }
@@ -182,15 +189,17 @@
 .map-btn {
     background: linear-gradient(135deg, #4caf50, #2e7d32);
 }
+
 .map-btn:hover {
     background: linear-gradient(135deg, #42a346, #286a2c);
 }
 
-/* NEW: GPX Button Style */
+/* GPX Button Style */
 .gpx-btn {
     background: linear-gradient(135deg, #ffc107, #e6a200);
-    color: #4a4a4a; 
+    color: #4a4a4a;
 }
+
 .gpx-btn:hover {
     background: linear-gradient(135deg, #e6b000, #cc9200);
 }

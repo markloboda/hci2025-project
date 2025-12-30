@@ -5,18 +5,19 @@ import 'leaflet.markercluster';
 import { hills, forecastPoints, Hill } from '../../assets/hills'; // ADD Hill interface
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import JSZip from 'jszip';
 
 // Define a custom marker type that includes our hill data for easier type casting
-type HillMarker = L.Marker & { 
-    options: L.MarkerOptions & { hillData: Hill } 
+type HillMarker = L.Marker & {
+    options: L.MarkerOptions & { hillData: Hill }
 };
 
 // Use this for modern Angular component structure
 @Component({
-  selector: 'app-hill-map',
-  standalone: true, // Assuming standalone for simplicity
-  imports: [CommonModule],
-  templateUrl: './hill-map.component.html',
+    selector: 'app-hill-map',
+    standalone: true, // Assuming standalone for simplicity
+    imports: [CommonModule],
+    templateUrl: './hill-map.component.html',
     styleUrls: ['./hill-map.component.css']
 })
 export class HillMapComponent implements AfterViewInit {
@@ -27,13 +28,13 @@ export class HillMapComponent implements AfterViewInit {
     forecastPoints = forecastPoints;
 
     private map!: L.Map;
-    private readonly OWM_API_KEY = '4ef79803c9b25f6b5dc3bc61922ae0c5'; 
+    private readonly OWM_API_KEY = '4ef79803c9b25f6b5dc3bc61922ae0c5';
 
     // NEW: Signal to hold the list of hills to display in the sidebar
     selectedHills = signal<Hill[]>([]);
 
-    private weatherIconGroup: L.LayerGroup = L.layerGroup(); 
-    
+    private weatherIconGroup: L.LayerGroup = L.layerGroup();
+
     ngAfterViewInit(): void {
         this.initMap();
     }
@@ -49,7 +50,71 @@ export class HillMapComponent implements AfterViewInit {
             this.map.flyTo([hill.lat, hill.lon], 13);
         }
     }
-    
+
+    // Adding of GPX files: in assets/gps folder .gpx files with hill name from start of file to first '-'
+    // When adding the GPX files, make sure to add the hill name to the start of the file, following by '-' and
+    // name of the path.
+    // Do not forget to add the file to the gps_manifest.json file.
+    downloadGPX(hill: Hill) {
+        // Sanitize the hill name: remove content in parentheses, lowercase, and trim
+        const cleanHillName = hill.name.replace(/\s*\(.*\)/, '').trim().toLowerCase();
+
+        fetch('assets/gps_manifest.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to load manifest');
+                }
+                return response.json();
+            })
+            .then(async (files: string[]) => {
+                // The user clarified: hill name is from the start of the file to the first '-'
+                const matchingFiles = files.filter(file => {
+                    const firstDashIndex = file.indexOf('-');
+                    if (firstDashIndex === -1) return false;
+
+                    const hillPartInFile = file.substring(0, firstDashIndex).toLowerCase();
+
+                    // Simple normalization for multi-word hills: 
+                    // remove spaces/underscores for comparison if they exist
+                    const normalize = (s: string) => s.replace(/[\s_]/g, '');
+
+                    return normalize(hillPartInFile) === normalize(cleanHillName);
+                });
+
+                if (matchingFiles.length === 0) {
+                    alert('No GPX files found for ' + hill.name);
+                    return;
+                }
+
+                const zip = new JSZip();
+
+                // Fetch all files and add to zip
+                const fetchPromises = matchingFiles.map(file =>
+                    fetch(`assets/gps/${file}`)
+                        .then(res => res.blob())
+                        .then(blob => {
+                            zip.file(file, blob);
+                        })
+                );
+
+                await Promise.all(fetchPromises);
+
+                // Generate zip and download
+                const content = await zip.generateAsync({ type: 'blob' });
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(content);
+                link.download = `${cleanHillName.replace(/\s+/g, '_')}_gpx.zip`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                URL.revokeObjectURL(link.href);
+            })
+            .catch(error => {
+                console.error('Error downloading/zipping GPX files:', error);
+                alert('Error processing GPX files.');
+            });
+    }
+
     goToHillPage(hillId: number) {
         // Use the router to navigate to the desired path, inserting the ID
         this.router.navigate(['/hill', hillId]);
@@ -77,12 +142,12 @@ export class HillMapComponent implements AfterViewInit {
             })
             .then(data => {
                 if (data.cod === 200) {
-                    const iconCode = data.weather[0].icon; 
+                    const iconCode = data.weather[0].icon;
                     const description = data.weather[0].description;
                     const temperature = Math.round(data.main.temp);
-                    
+
                     const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-                    
+
                     const weatherIcon = L.icon({
                         iconUrl: iconUrl,
                         iconSize: [60, 60],
@@ -102,8 +167,8 @@ export class HillMapComponent implements AfterViewInit {
                                 ${description}
                             </div>
                         `);
-                    
-                    this.weatherIconGroup.addLayer(marker); 
+
+                    this.weatherIconGroup.addLayer(marker);
                 }
             })
             .catch(error => console.error(`Error processing weather data for ${point.name}:`, error));
@@ -117,7 +182,7 @@ export class HillMapComponent implements AfterViewInit {
             iconSize: [24, 38],
             iconAnchor: [19, 46],
             popupAnchor: [0, -42]
-            });
+        });
         const iconRetinaUrl = 'assets/marker-icon-2x.png';
         const iconUrl = 'assets/marker-icon.png';
         const shadowUrl = 'assets/marker-shadow.png';
@@ -139,11 +204,11 @@ export class HillMapComponent implements AfterViewInit {
         });
 
         this.map = L.map('map', {
-            layers: [osmBaseLayer] 
+            layers: [osmBaseLayer]
         }).setView([46.15, 14.99], 8);
 
-        this.addWeatherIconsToMap(); 
-        
+        this.addWeatherIconsToMap();
+
         // --- 3. DEFINE OVERLAY LAYERS ---
         const weatherUrl = `https://tile.openweathermap.org/map/temp_new/{z}/{x}/{y}.png?appid=${this.OWM_API_KEY}`;
         const temperatureLayer = L.tileLayer(weatherUrl, {
@@ -153,29 +218,29 @@ export class HillMapComponent implements AfterViewInit {
         });
 
         const weatherForecastGroup = L.layerGroup([
-            temperatureLayer, 
-            this.weatherIconGroup 
+            temperatureLayer,
+            this.weatherIconGroup
         ]);
 
-        const baseLayers = {}; 
+        const baseLayers = {};
         const overlayLayers = {
-            "Current Weather Forecast (Icons & Temp)": weatherForecastGroup, 
+            "Current Weather Forecast (Icons & Temp)": weatherForecastGroup,
         };
-        
+
         L.control.layers(baseLayers, overlayLayers).addTo(this.map);
 
         // --- 4. MARKER CLUSTERING SETUP AND CLICK LISTENERS ---
         const markers = L.markerClusterGroup({
-            chunkedLoading: true 
+            chunkedLoading: true
         });
 
         this.hills.forEach(hill => {
             // Create a custom marker with the full hill object in its options
-            const marker = L.marker([hill.lat, hill.lon], { 
+            const marker = L.marker([hill.lat, hill.lon], {
                 // Store the hill data directly in the marker's options for retrieval on click
                 hillData: hill,
                 icon: hillIcon
-            } as any); 
+            } as any);
 
             marker.bindPopup(hill.name);
 
@@ -185,7 +250,7 @@ export class HillMapComponent implements AfterViewInit {
                 const clickedMarker = e.target as HillMarker;
                 this.selectedHills.set([clickedMarker.options.hillData]); // Set only the clicked hill
             });
-            
+
             markers.addLayer(marker);
         });
 
@@ -193,10 +258,10 @@ export class HillMapComponent implements AfterViewInit {
         markers.on('clusterclick', (a: any) => {
             // a.layer is the cluster object
             const childMarkers: HillMarker[] = a.layer.getAllChildMarkers();
-            
+
             // Extract the hillData from all markers in the cluster
             const hillsInCluster: Hill[] = childMarkers.map(m => m.options.hillData);
-            
+
             this.selectedHills.set(hillsInCluster);
 
             // If a cluster is clicked, zoom in to see the individual points unless there are many

@@ -1,33 +1,34 @@
 <div class="map-container">
-  <div id="map" [class.map-with-sidebar]="selectedHills().length > 0"></div>
+    <div id="map" [class.map-with-sidebar]="selectedHills().length > 0"></div>
 
-  <div *ngIf="selectedHills().length > 0" class="sidebar">
-        
+    <div *ngIf="selectedHills().length > 0" class="sidebar">
+
         <header>
-            <h2>{{ selectedHills().length }} Hrib{{ selectedHills().length > 1 ? 'ov' : '' }} Izbranih</h2>
+            <h2>{{ selectedHills().length }} Hrib{{ selectedHills().length > 1 ? 'ov' : '' }} Izbran{{
+                selectedHills().length > 1 ? 'ih' : '' }}</h2>
             <button (click)="clearSelection()" class="close-btn" title="Zapri stran">X</button>
         </header>
 
-    <div class="hill-list">
-      <div *ngFor="let hill of selectedHills()" class="hill-card">
-                
+        <div class="hill-list">
+            <div *ngFor="let hill of selectedHills()" class="hill-card">
+
                 <div class="hill-image-container">
                     <img src="assets/img/default.jpg" alt="{{ hill.name }}" class="hill-image">
                 </div>
 
                 <h3>{{ hill.name }}</h3>
-                
+
                 <div class="info-grid">
                     <p>
-                        <i class="fa-solid fa-mountain"></i> 
+                        <i class="fa-solid fa-mountain"></i>
                         {{ hill.height }}m
                     </p>
                     <p>
-                        <i class="fa-solid fa-layer-group"></i> 
+                        <i class="fa-solid fa-layer-group"></i>
                         {{ hill.mountainRange }}
                     </p>
                 </div>
-                
+
                 <div class="card-actions">
                     <button (click)="goToHillPage(hill.id)" class="detail-btn">
                         <i class="fa-solid fa-circle-info"></i>
@@ -38,13 +39,13 @@
                         <i class="fa-solid fa-location-arrow"></i>
                         Približaj na zemljevidu
                     </button>
-                    
-                    <button (click)="alert('GPX download for ' + hill.name + ' will be implemented here!')" class="gpx-btn">
-                        <i class="fa-solid fa-route"></i> 
-                        GPX Sled
+
+                    <button (click)="downloadGPX(hill)" class="gpx-btn">
+                        <i class="fa-solid fa-route"></i>
+                        Prenesi GPS Sledi
                     </button>
                 </div>
             </div>
         </div>
-      </div>
     </div>
+</div>
