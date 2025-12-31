@@ -31,7 +31,7 @@
                 "glob": "**/*",
                 "input": "node_modules/leaflet/dist/images/",
                 "output": "./assets/"
-             }
+              }
             ],
             "styles": [
               "src/styles.css",
@@ -51,8 +51,8 @@
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "20kB",
+                  "maximumError": "30kB"
                 }
               ],
               "outputHashing": "all"
@@ -97,7 +97,7 @@
               },
               {
                 "glob": "**/*",
-                "input": "node_modules/leaflet/dist/images/", 
+                "input": "node_modules/leaflet/dist/images/",
                 "output": "./assets/"
               }
             ],

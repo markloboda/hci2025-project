@@ -48,9 +48,12 @@
     /* <-- remove forced offset */
     padding-bottom: 0px;
 
-    h1 {
-      font-size: 54px;
+    .hero-title {
+      font-family: "Kaushan Script", cursive;
+      font-size: 64px;
       margin-bottom: 24px;
+      font-weight: 400;
+      letter-spacing: normal;
     }
 
     .search-box {
@@ -97,12 +100,6 @@
   }
 }
 
-.kaushan-script-regular {
-  font-family: "Kaushan Script", cursive;
-  font-weight: 400;
-  font-style: normal;
-  color: white;
-}
 
 .roboto-100 {
   font-family: "Roboto", sans-serif;
@@ -152,7 +149,7 @@
 
 /* Title styling consistent with your hill page aesthetic */
 .homepage-map-title {
-  font-size: 2.2em;
+  font-size: 32px;
   font-weight: 700;
   color: var(--text-color);
   margin-bottom: 10px;
@@ -169,7 +166,7 @@
 
 /* Map container styled like your hill-page map */
 .homepage-map-container {
-  height: 550px;
+  height: 560px;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);

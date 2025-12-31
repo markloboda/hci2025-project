@@ -1,26 +1,84 @@
 <div class="page-placeholder">
-  <h1>Kamere (Cameras)</h1>
+  <h1>Kamere</h1>
   <p>Live cameras near popular peaks and passes. Click an entry to open the stream.</p>
-</div>
-<!-- Preview grid: show first 3 cameras as expanded previews -->
-<div class="preview-grid">
-  <div *ngFor="let cam of cameras | slice:0:3" class="preview-card">
-    <img *ngIf="cam.url" class="cam-preview" [src]="getLiveSrc(cam)" [alt]="cam.name" (click)="open(cam.url)" />
-    <div class="preview-meta">
-      <h3>{{ cam.name }}</h3>
-      <p class="meta">{{ cam.location }}</p>
+
+  <!-- Search Bar -->
+  <div class="search-bar-container">
+    <input type="text" class="search-input-premium" placeholder="Išči kamere po imenu ali lokaciji..."
+      (input)="updateSearch($event)" [value]="searchTerm" />
+  </div>
+
+  <!-- Preview grid: first 3 cameras -->
+  <div class="preview-grid">
+    <div *ngFor="let cam of cameras | slice:0:3" class="preview-card">
+      <img *ngIf="cam.url" class="cam-preview" [src]="getLiveSrc(cam)" [alt]="cam.name" (click)="open(cam.url)" />
+      <div class="preview-meta">
+        <h3>{{ cam.name }}</h3>
+        <p class="meta">{{ cam.location }}</p>
+      </div>
     </div>
   </div>
-</div>
 
-<!-- Show remaining cameras (skip the first 3 already shown in preview) -->
-<div class="cameras-list">
-  <div *ngFor="let cam of cameras | slice:3" class="camera-card">
-    <h3>{{ cam.name }}</h3>
-    <p class="meta">{{ cam.location }}</p>
-    <p class="desc">{{ cam.description }}</p>
-    <div class="actions">
-      <a [href]="cam.url" target="_blank" rel="noopener">Open in new tab</a>
+  <!-- CASE 1: SEARCH ACTIVE -->
+  <div *ngIf="searchTerm" class="results-container">
+    <h2>Rezultati iskanja ({{ filteredCameras.length }})</h2>
+
+    <div class="preview-grid" *ngIf="filteredCameras.length > 0; else noResults">
+      <div *ngFor="let cam of filteredCameras" class="preview-card">
+        <div class="live-badge">V ŽIVO</div>
+        <img *ngIf="cam.url" class="cam-preview" [src]="getLiveSrc(cam)" [alt]="cam.name" (click)="open(cam.url)" />
+        <div class="preview-meta">
+          <h3>{{ cam.name }}</h3>
+          <p class="meta">{{ cam.location }}</p>
+          <div class="preview-footer">
+            <span class="status-badge">☁️ Weather</span>
+            <span class="status-badge">⛰️ Elev.</span>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <ng-template #noResults>
+      <div class="no-results">
+        <p>Ni rezultatov za "{{ searchTerm }}".</p>
+      </div>
+    </ng-template>
+  </div>
+
+  <!-- CASE 2: DEFAULT VIEW (POPULAR + OTHERS) -->
+  <div *ngIf="!searchTerm">
+    <!-- POPULAR SECTION -->
+    <section class="camera-section">
+      <h2 class="section-title">🔥 Priljubljeno</h2>
+      <div class="preview-grid">
+        <div *ngFor="let cam of popularCameras" class="preview-card popular-card">
+          <div class="live-badge">V ŽIVO</div>
+          <img *ngIf="cam.url" class="cam-preview" [src]="getLiveSrc(cam)" [alt]="cam.name" (click)="open(cam.url)" />
+          <div class="preview-meta">
+            <h3>{{ cam.name }}</h3>
+            <p class="meta">{{ cam.location }}</p>
+            <div class="preview-footer">
+              <span class="status-badge">☁️ Weather</span>
+              <span class="status-badge">⛰️ Elev.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- OTHERS SECTION -->
+    <section class="camera-section">
+      <h2 class="section-title">📍 Ostale lokacije</h2>
+      <div class="cameras-list">
+        <div *ngFor="let cam of otherCameras" class="camera-card">
+          <h3>{{ cam.name }}</h3>
+          <p class="meta">{{ cam.location }}</p>
+          <p class="desc">{{ cam.description }}</p>
+          <div class="actions">
+            <a [href]="cam.url" target="_blank" rel="noopener">Odpri kamero ↗</a>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </div>

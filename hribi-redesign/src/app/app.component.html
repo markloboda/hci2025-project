@@ -2,19 +2,16 @@
 <header class="navbar" [class.nav-scrolled]="scrolled">
   <div class="nav-left">
     <a routerLink="/home" class="logo-link" aria-label="Hribi home">
-      <img
-        [src]="'assets/logo-light.png'"
-        alt="Hribi.net logo"
-        class="logo"
-      />
+      <img [src]="'assets/logo-light.png'" alt="Hribi.net logo" class="logo" />
     </a>
   </div>
 
   <nav class="nav-right roboto-100">
-    <a routerLink="/news">Novice</a>
+    <a routerLink="/home">Domov</a>
     <a routerLink="/map">Zemljevid</a>
     <a routerLink="/weather">Vreme</a>
     <a routerLink="/cameras">Kamere</a>
+    <a routerLink="/news">Novice</a>
     <!-- Theme toggle -->
     <!-- <button class="theme-toggle" (click)="toggleTheme()" [attr.aria-pressed]="darkMode" aria-label="Toggle light/dark theme">
       <span *ngIf="!darkMode">🌙</span>

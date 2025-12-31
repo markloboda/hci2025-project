@@ -1,64 +1,55 @@
-/* --- General Page Layout --- */
 .hill-page-container {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  padding: 30px;
-  max-width: 1400px;
-  margin: 0 auto;
-  background-color: #f4f8fb;
-  /* soft page background */
+  font-family: 'Inter', sans-serif;
+  padding: 0;
+  background-color: var(--background);
+  color: var(--text-color);
 }
 
 .hill-name {
-  font-size: 3em;
-  text-align: left;
-  margin-bottom: 40px;
-  font-weight: 700;
-  color: #2c3e50;
+  font-size: 3.5rem;
+  text-align: center;
+  margin: 0;
+  color: #fff;
 }
 
-/* --- Unified Group Card --- */
+.page-placeholder {
+  padding: 40px 20px 60px;
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/assets/mountain-hero.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* --- Unified Premium Card --- */
 .group-card {
-  background: linear-gradient(145deg,
-      #e0f0ff,
-      #ffffff);
-  /* unified light blue gradient */
-  border-radius: 25px;
-  padding: 25px 30px;
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 32px;
   margin-bottom: 30px;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   position: relative;
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
 }
 
 .group-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+  transform: translateY(-5px);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.1);
+  border-color: var(--accent-color);
 }
 
-/* Decorative Shapes */
-.group-card::before,
-.group-card::after {
+/* Decorative glass blobs */
+.group-card::before {
   content: "";
   position: absolute;
+  width: 150px;
+  height: 150px;
+  top: -75px;
+  right: -75px;
+  background: radial-gradient(circle, var(--accent-color) 0%, transparent 70%);
+  opacity: 0.1;
   border-radius: 50%;
-  z-index: 0;
-  opacity: 0.15;
-}
-
-.group-card::before {
-  width: 80px;
-  height: 80px;
-  top: -20px;
-  right: -20px;
-  background: #8ed1fc;
-}
-
-.group-card::after {
-  width: 50px;
-  height: 50px;
-  bottom: -15px;
-  left: -15px;
-  background: #5bb0f7;
+  pointer-events: none;
 }
 
 /* Ensure content is above shapes */

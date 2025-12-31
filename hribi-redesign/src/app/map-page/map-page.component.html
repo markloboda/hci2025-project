@@ -1,4 +1,38 @@
 <div class="map-page">
-  <!-- Show a map preview (same as home) on the map page -->
-  <app-hill-map-preview></app-hill-map-preview>
+  <header class="page-placeholder">
+    <h1>Zemljevid</h1>
+  </header>
+
+  <div class="map-layout">
+
+    <!-- Sidebar with Glassmorphism -->
+    <aside class="map-sidebar">
+      <div class="sidebar-header">
+        <h2 class="roboto-700">Priljubljeni Hribi</h2>
+        <button class="locate-btn" (click)="onLocateMe()" title="Locate Me">
+          📍
+        </button>
+      </div>
+
+      <div class="search-container">
+        <input type="text" placeholder="Išči hribe..." class="search-input">
+      </div>
+
+      <ul class="hills-list">
+        <li *ngFor="let hill of displayedHills" class="hill-item-premium" (click)="onHillClick(hill)">
+          <div class="hill-info">
+            <h3 class="roboto-700">{{ hill.name }}</h3>
+            <p>{{ hill.mountainRange }} • {{ hill.height }} m</p>
+          </div>
+          <span class="view-arrow">→</span>
+        </li>
+      </ul>
+    </aside>
+
+    <!-- Map Area -->
+    <main class="map-content">
+      <app-hill-map></app-hill-map>
+    </main>
+
+  </div>
 </div>
