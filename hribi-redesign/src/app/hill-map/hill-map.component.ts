@@ -4,7 +4,7 @@ import { icon, Marker } from 'leaflet';
 import 'leaflet.markercluster';
 import { hills, forecastPoints, Hill } from '../../assets/hills'; // ADD Hill interface
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Route, Router } from '@angular/router';
 import JSZip from 'jszip';
 
 // Define a custom marker type that includes our hill data for easier type casting
@@ -56,7 +56,10 @@ export class HillMapComponent implements AfterViewInit {
     // name of the path.
     // Do not forget to add the file to the gps_manifest.json file.
     downloadGPX(hill: Hill) {
-        if (!hill.gps || hill.gps.length === 0) {
+        // Collect all unique GPX files from all routes
+        const allGpsFiles: string[] = Array.from(new Set(hill.routes.flatMap(r => r.gps || [])));
+
+        if (allGpsFiles.length === 0) {
             alert('No GPX files found for ' + hill.name);
             return;
         }
@@ -64,7 +67,7 @@ export class HillMapComponent implements AfterViewInit {
         const zip = new JSZip();
 
         // Fetch all files and add to zip
-        const fetchPromises = hill.gps.map((file: string) =>
+        const fetchPromises = allGpsFiles.map((file: string) =>
             fetch(`assets/gps/${file}`)
                 .then(res => res.blob())
                 .then(blob => {

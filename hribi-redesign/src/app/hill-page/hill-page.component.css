@@ -426,14 +426,72 @@
 .route-time,
 .route-difficulty,
 .route-height {
-  background: linear-gradient(135deg, rgba(116, 185, 255, 0.2), rgba(116, 185, 255, 0.3));
-  padding: 6px 12px;
-  border-radius: 20px;
-  font-size: 0.9em;
-  color: #0984e3;
-  font-weight: 600;
   border: 1px solid rgba(116, 185, 255, 0.3);
   transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.gpx-download-row {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.gpx-download-btn {
+  background: linear-gradient(135deg, #0984e3, #74b9ff);
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(9, 132, 227, 0.2);
+}
+
+.gpx-download-btn span {
+  font-size: 1.2em;
+}
+
+.gpx-download-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(9, 132, 227, 0.3);
+  filter: brightness(1.1);
+}
+
+.gpx-download-btn:active {
+  transform: translateY(0);
+}
+
+.route-difficulty.inline {
+  display: inline-flex;
+  margin-left: 10px;
+  vertical-align: middle;
+}
+
+.hiker-icon {
+  opacity: 0.3;
+  filter: grayscale(1);
+  transition: all 0.3s ease;
+  font-size: 1.2em;
+}
+
+.hiker-icon.active {
+  opacity: 1;
+  filter: grayscale(0);
+  color: #0984e3;
+}
+
+.selected .hiker-icon.active {
+  color: white;
 }
 
 .route-header:hover .route-time,

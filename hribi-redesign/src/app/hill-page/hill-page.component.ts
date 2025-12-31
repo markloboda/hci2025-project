@@ -116,4 +116,38 @@ export class HillPageComponent implements OnInit {
   closeImageModal(): void {
     this.selectedImage = null;
   }
+
+  getDifficultyIcons(difficulty: string): boolean[] {
+    switch (difficulty) {
+      case 'Easy': return [true, false, false];
+      case 'Medium': return [true, true, false];
+      case 'Hard': return [true, true, true];
+      default: return [false, false, false];
+    }
+  }
+
+  downloadRouteGPX(gpsFile: string | undefined): void {
+    if (!gpsFile) return;
+
+    const filePath = `assets/gps/${gpsFile}`;
+    fetch(filePath)
+      .then(res => {
+        if (!res.ok) throw new Error('File not found');
+        return res.blob();
+      })
+      .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = gpsFile;
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+      })
+      .catch(err => {
+        console.error('Download failed:', err);
+        alert('Prenos GPX datoteke ni uspel. Datoteka morda ne obstaja na strežniku.');
+      });
+  }
 }

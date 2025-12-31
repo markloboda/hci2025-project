@@ -116,7 +116,10 @@
             <h3>{{ route.name }}</h3>
             <div class="route-quick-info">
               <span class="route-time">⏱️ {{ route.time }}</span>
-              <span class="route-difficulty">🏔️ {{ route.difficulty }}</span>
+              <span class="route-difficulty">
+                <span *ngFor="let active of getDifficultyIcons(route.difficulty)" class="hiker-icon"
+                  [class.active]="active">🥾</span>
+              </span>
               <span class="route-height">📏 {{ route.heightDiff }}m</span>
             </div>
           </div>
@@ -139,9 +142,20 @@
         <p><strong>Konec:</strong> {{ hillData.routes[selectedRouteIndex].end }}</p>
         <p><strong>Čas hoje:</strong> {{ hillData.routes[selectedRouteIndex].time }}</p>
         <p><strong>Višinska razlika:</strong> {{ hillData.routes[selectedRouteIndex].heightDiff }}m</p>
-        <p><strong>Težavnost:</strong> {{ hillData.routes[selectedRouteIndex].difficulty }}</p>
+        <p><strong>Težavnost:</strong>
+          <span class="route-difficulty inline">
+            <span *ngFor="let active of getDifficultyIcons(hillData.routes[selectedRouteIndex].difficulty)"
+              class="hiker-icon" [class.active]="active">🥾</span>
+          </span>
+        </p>
         <p><strong>Poletna oprema:</strong> {{ hillData.routes[selectedRouteIndex].summerGear }}</p>
         <p><strong>Zimska oprema:</strong> {{ hillData.routes[selectedRouteIndex].winterGear }}</p>
+        <p *ngIf="hillData.routes[selectedRouteIndex].gps" class="gpx-download-row">
+          <strong>GPX sled:</strong>
+          <button class="gpx-download-btn" (click)="downloadRouteGPX(hillData.routes[selectedRouteIndex].gps)">
+            <span>📥</span> Prenesi GPX sled
+          </button>
+        </p>
       </div>
 
       <div class="route-description">
