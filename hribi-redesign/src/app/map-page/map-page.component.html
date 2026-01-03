@@ -8,30 +8,52 @@
     <!-- Sidebar with Glassmorphism -->
     <aside class="map-sidebar">
       <div class="sidebar-header">
-        <h2 class="roboto-700">Priljubljeni Hribi</h2>
+        <h2 class="roboto-700">Filtriraj Hribe</h2>
         <button class="locate-btn" (click)="onLocateMe()" title="Locate Me">
           📍
         </button>
       </div>
 
-      <div class="search-container">
-        <input type="text" placeholder="Išči hribe..." class="search-input">
-      </div>
+      <div class="filters-container">
+        <!-- Mountain Range -->
+        <div class="filter-group">
+          <label class="filter-label">Gorovje</label>
+          <select [(ngModel)]="selectedMountainRange" class="filter-select">
+            <option value="">Vsa gorovja</option>
+            <option *ngFor="let range of mountainRanges" [value]="range">{{ range }}</option>
+          </select>
+        </div>
 
-      <ul class="hills-list">
-        <li *ngFor="let hill of displayedHills" class="hill-item-premium" (click)="onHillClick(hill)">
-          <div class="hill-info">
-            <h3 class="roboto-700">{{ hill.name }}</h3>
-            <p>{{ hill.mountainRange }} • {{ hill.height }} m</p>
+        <!-- Difficulty -->
+        <div class="filter-group">
+          <label class="filter-label">Težavnost</label>
+          <select [(ngModel)]="selectedDifficulty" class="filter-select">
+            <option value="">Vse težavnosti</option>
+            <option value="Easy">Lahka</option>
+            <option value="Medium">Zahtevna</option>
+            <option value="Hard">Zelo zahtevna</option>
+          </select>
+        </div>
+
+        <!-- Height Range -->
+        <div class="filter-group">
+          <label class="filter-label">Nadmorska višina (m)</label>
+          <div class="height-inputs">
+            <input type="number" [(ngModel)]="minHeight" placeholder="Min" class="filter-input-small">
+            <span class="range-separator">-</span>
+            <input type="number" [(ngModel)]="maxHeight" placeholder="Max" class="filter-input-small">
           </div>
-          <span class="view-arrow">→</span>
-        </li>
-      </ul>
+        </div>
+
+        <div class="results-count">
+          Najdenih hribov: {{ filteredHills.length }}
+        </div>
+      </div>
     </aside>
 
     <!-- Map Area -->
     <main class="map-content">
-      <app-hill-map></app-hill-map>
+      <app-hill-map [hills]="filteredHills" [autoSelectAll]="true"></app-hill-map>
     </main>
 
   </div>

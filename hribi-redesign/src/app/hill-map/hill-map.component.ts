@@ -1,8 +1,8 @@
-import { Component, AfterViewInit, signal, inject, Input } from '@angular/core'; // ADD signal
+import { Component, AfterViewInit, signal, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
 import * as L from 'leaflet';
 import { icon, Marker } from 'leaflet';
 import 'leaflet.markercluster';
-import { hills, forecastPoints, Hill } from '../../assets/hills'; // ADD Hill interface
+import { hills, forecastPoints, Hill } from '../../assets/hills';
 import { CommonModule } from '@angular/common';
 import { Route, Router } from '@angular/router';
 import JSZip from 'jszip';
@@ -12,7 +12,6 @@ type HillMarker = L.Marker & {
   options: L.MarkerOptions & { hillData: Hill }
 };
 
-// Use this for modern Angular component structure
 @Component({
   selector: 'app-hill-map',
   standalone: true, // Assuming standalone for simplicity
@@ -20,17 +19,19 @@ type HillMarker = L.Marker & {
   templateUrl: './hill-map.component.html',
   styleUrls: ['./hill-map.component.css']
 })
-export class HillMapComponent implements AfterViewInit {
+export class HillMapComponent implements AfterViewInit, OnChanges {
   @Input() showPlaceholder = true;
+  @Input() autoSelectAll = false; // New input to control auto-selection behavior
   private router = inject(Router);
-  // ... existing properties ...
-  hills = hills;
+
+  @Input() hills: Hill[] = hills; // Default to all hills
   forecastPoints = forecastPoints;
 
   private map!: L.Map;
+  private markerClusterGroup!: L.MarkerClusterGroup;
   private readonly OWM_API_KEY = '4ef79803c9b25f6b5dc3bc61922ae0c5';
 
-  // NEW: Signal to hold the list of hills to display in the sidebar
+  // Signal to hold the list of hills to display in the sidebar
   selectedHills = signal<Hill[]>([]);
 
   private weatherIconGroup: L.LayerGroup = L.layerGroup();
@@ -39,7 +40,18 @@ export class HillMapComponent implements AfterViewInit {
     this.initMap();
   }
 
-  // NEW: Clears the selected hills list, closing the sidebar
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['hills']) {
+      if (this.autoSelectAll) {
+        this.selectedHills.set(this.hills); // Sync selection with input
+      }
+
+      if (!changes['hills'].isFirstChange()) {
+        this.updateMarkers();
+      }
+    }
+  }
+
   clearSelection() {
     this.selectedHills.set([]);
   }
@@ -161,13 +173,6 @@ export class HillMapComponent implements AfterViewInit {
 
 
   private initMap() {
-    // --- 1. ICON FIX for Leaflet Default Markers ---
-    const hillIcon = L.icon({
-      iconUrl: 'assets/icons/marker.svg',
-      iconSize: [24, 38],
-      iconAnchor: [19, 46],
-      popupAnchor: [0, -42]
-    });
     const iconRetinaUrl = 'assets/marker-icon-2x.png';
     const iconUrl = 'assets/marker-icon.png';
     const shadowUrl = 'assets/marker-shadow.png';
@@ -222,9 +227,35 @@ export class HillMapComponent implements AfterViewInit {
 
     L.control.layers(baseLayers, overlayLayers).addTo(this.map);
 
-    // --- 4. MARKER CLUSTERING SETUP AND CLICK LISTENERS ---
-    const markers = L.markerClusterGroup({
+    this.markerClusterGroup = L.markerClusterGroup({
       chunkedLoading: true
+    });
+
+    this.updateMarkers();
+
+    this.markerClusterGroup.on('clusterclick', (a: any) => {
+      const childMarkers: HillMarker[] = a.layer.getAllChildMarkers();
+      const hillsInCluster: Hill[] = childMarkers.map(m => m.options.hillData);
+      this.selectedHills.set(hillsInCluster);
+
+      if (hillsInCluster.length <= 5) {
+        a.layer.zoomToBounds();
+      }
+    });
+
+    this.map.addLayer(this.markerClusterGroup);
+  }
+
+  private updateMarkers() {
+    if (!this.map || !this.markerClusterGroup) return;
+
+    this.markerClusterGroup.clearLayers();
+
+    const hillIcon = L.icon({
+      iconUrl: 'assets/icons/marker.svg',
+      iconSize: [24, 38],
+      iconAnchor: [19, 46],
+      popupAnchor: [0, -42]
     });
 
     this.hills.forEach(hill => {
@@ -239,31 +270,29 @@ export class HillMapComponent implements AfterViewInit {
 
       // Add click listener for individual markers
       marker.on('click', (e) => {
-        // Cast e.target (the marker) to our custom type to access hillData
         const clickedMarker = e.target as HillMarker;
-        this.selectedHills.set([clickedMarker.options.hillData]); // Set only the clicked hill
+        const hillData = clickedMarker.options.hillData;
+
+        if (this.autoSelectAll) {
+          // Scroll to the card instead of filtering
+          setTimeout(() => {
+            const cardElement = document.getElementById('hill-card-' + hillData.id);
+            if (cardElement) {
+              cardElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+              // Add highlight effect
+              cardElement.classList.add('highlight-card');
+              setTimeout(() => cardElement.classList.remove('highlight-card'), 2000);
+            }
+          }, 100);
+        } else {
+          // Default behavior: reset selection to just this hill
+          this.selectedHills.set([hillData]);
+        }
       });
 
-      markers.addLayer(marker);
+      this.markerClusterGroup.addLayer(marker);
     });
-
-    // Add cluster click listener
-    markers.on('clusterclick', (a: any) => {
-      // a.layer is the cluster object
-      const childMarkers: HillMarker[] = a.layer.getAllChildMarkers();
-
-      // Extract the hillData from all markers in the cluster
-      const hillsInCluster: Hill[] = childMarkers.map(m => m.options.hillData);
-
-      this.selectedHills.set(hillsInCluster);
-
-      // If a cluster is clicked, zoom in to see the individual points unless there are many
-      if (hillsInCluster.length <= 5) {
-        a.layer.zoomToBounds();
-      }
-    });
-
-    this.map.addLayer(markers);
   }
 
   alert(message: string) {

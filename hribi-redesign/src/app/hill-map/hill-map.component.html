@@ -10,10 +10,11 @@
         </header>
 
         <div class="hill-list">
-            <div *ngFor="let hill of selectedHills()" class="hill-card">
+            <div *ngFor="let hill of selectedHills()" class="hill-card" [id]="'hill-card-' + hill.id">
 
                 <div class="hill-image-container">
-                    <img src="assets/img/default.jpg" alt="{{ hill.name }}" class="hill-image">
+                    <img [src]="hill.images?.length ? hill.images[0].url : 'assets/img/default.jpg'"
+                        alt="{{ hill.name }}" class="hill-image">
                 </div>
 
                 <h3>{{ hill.name }}</h3>
