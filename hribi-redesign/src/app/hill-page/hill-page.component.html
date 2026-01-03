@@ -70,17 +70,17 @@
           </div>
         </div>
       </div>
+    </div>
 
-      <!-- Gallery -->
-      <div class="gallery-card card-panel">
-        <h2>Galerija ({{ hillData.images.length }})</h2>
-        <div *ngIf="hillData.images.length === 0" class="gallery-placeholder">
-          No images available.
-        </div>
-        <div class="thumbnail-row" *ngIf="hillData.images.length > 0">
-          <div class="thumb" *ngFor="let image of hillData.images" [title]="image.name"
-            [style.backgroundImage]="'url(' + image.url + ')'" (click)="openImageModal(image)"></div>
-        </div>
+    <!-- Gallery -->
+    <div class="gallery-card card-panel group-card">
+      <h2>Galerija ({{ hillData.images.length }})</h2>
+      <div *ngIf="hillData.images.length === 0" class="gallery-placeholder">
+        No images available.
+      </div>
+      <div class="thumbnail-row" *ngIf="hillData.images.length > 0">
+        <div class="thumb" *ngFor="let image of hillData.images" [title]="image.name"
+          [style.backgroundImage]="'url(' + image.url + ')'" (click)="openImageModal(image)"></div>
       </div>
     </div>
 

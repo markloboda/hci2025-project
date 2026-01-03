@@ -10,7 +10,7 @@ describe('SearchWidgetComponent', () => {
     await TestBed.configureTestingModule({
       imports: [SearchWidgetComponent]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(SearchWidgetComponent);
     component = fixture.componentInstance;

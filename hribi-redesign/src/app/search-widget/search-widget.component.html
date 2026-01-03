@@ -4,22 +4,13 @@
        'show': mode === 'floating'
      }">
 
-  <input
-    type="text"
-    placeholder="Kam danes?"
-    [(ngModel)]="query"
-    (focus)="onFocus()"
-    (blur)="onBlur()"
-  />
+  <input type="text" placeholder="Kam danes?" [(ngModel)]="query" (focus)="onFocus()" (blur)="onBlur()"
+    (keyup.enter)="onSearch()" />
 
-  <button>🔍</button>
+  <button (click)="onSearch()">🔍</button>
 
   <div class="dropdown" *ngIf="showDropdown">
-    <div
-      class="dropdown-item"
-      *ngFor="let item of examples"
-      (mousedown)="onSelectExample(item)"
-    >
+    <div class="dropdown-item" *ngFor="let item of filteredHills" (mousedown)="onSelectValue(item)">
       {{ item }}
     </div>
   </div>

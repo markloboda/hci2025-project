@@ -11,7 +11,7 @@
   backdrop-filter: blur(14px);
   border-radius: 40px;
   padding: 12px 20px;
-  box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
   z-index: 99999;
 }
 
@@ -32,7 +32,8 @@
   background: transparent;
 
   font-size: 16px;
-  padding: 0; /* remove inner padding */
+  padding: 0;
+  /* remove inner padding */
   margin: 0;
 
   color: var(--text-color, #000);
@@ -50,7 +51,8 @@
   border: none;
   background: transparent;
   outline: none;
-  font-size: 20px; /* Match the icon size for visual consistency */
+  font-size: 20px;
+  /* Match the icon size for visual consistency */
   cursor: pointer;
   padding: 0;
   /* Add flex centering properties to ensure the emoji is vertically aligned */
@@ -88,7 +90,7 @@
 
   background: white;
   border-radius: 14px;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.18);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
   padding: 6px 0;
   animation: fadeIn 0.15s ease-out;
   z-index: 99999;
@@ -108,6 +110,13 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-6px); }
-  to  { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
