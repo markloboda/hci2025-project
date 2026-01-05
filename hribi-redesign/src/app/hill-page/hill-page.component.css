@@ -547,6 +547,8 @@
   padding: 20px;
   margin-bottom: 20px;
   border: 1px solid #ffe6cc;
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 .route-description h4 {
@@ -1109,4 +1111,76 @@
   50% {
     transform: scale(1.1);
   }
+}
+
+/* Webcam Grid */
+.webcam-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.webcam-item {
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--card-bg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+.webcam-item:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
+.webcam-image-container {
+  height: 180px;
+  background-color: #eee;
+  position: relative;
+  overflow: hidden;
+}
+
+.webcam-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.webcam-item:hover img {
+  transform: scale(1.05);
+}
+
+.webcam-info {
+  padding: 12px 15px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.05);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dark-theme .webcam-info {
+  border-top-color: rgba(255, 255, 255, 0.05);
+}
+
+.description-text {
+  max-height: 300px;
+  overflow-y: auto;
+  line-height: 1.6;
+  padding-right: 10px;
+}
+
+/* Star Rating */
+.star-icon {
+  opacity: 0.3;
+  filter: grayscale(1);
+  transition: all 0.3s ease;
+  font-size: 1.2em;
+}
+
+.star-icon.active {
+  opacity: 1;
+  filter: grayscale(0);
+  color: #f1c40f; 
 }

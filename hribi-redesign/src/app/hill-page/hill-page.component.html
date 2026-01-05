@@ -38,7 +38,10 @@
           </div>
           <div class="info-row">
             <div class="info-label">⭐ Priljubljenost:</div>
-            <div class="info-value">{{ hillData.popularity }} / 5</div>
+            <div class="info-value">
+              <span *ngFor="let active of getPopularityIcons(hillData.popularity)" class="star-icon"
+                [class.active]="active">⭐</span>
+            </div>
           </div>
         </div>
       </div>
@@ -87,7 +90,7 @@
     <!-- Description -->
     <div class="card-panel group-card">
       <h2>Opis</h2>
-      <p>{{ hillData.description }}</p>
+      <p class="description-text">{{ hillData.description }}</p>
     </div>
 
     <!-- Map and Routes Section -->
@@ -195,10 +198,16 @@
       <div *ngIf="hillData.webcams.length === 0" class="no-comments">
         Ni spletnih kamer.
       </div>
-      <div *ngFor="let webcam of hillData.webcams">
-        <p>
-          <strong>{{ webcam.name }}</strong>: <a [href]="webcam.url" target="_blank">{{ webcam.url }}</a>
-        </p>
+      <div class="webcam-grid" *ngIf="hillData.webcams.length > 0">
+        <div class="webcam-item" *ngFor="let webcam of hillData.webcams" (click)="openWebcam(webcam.url)"
+          title="Odpri v novem zavihku">
+          <div class="webcam-image-container">
+            <img [src]="getLiveSrc(webcam)" [alt]="webcam.name" loading="lazy">
+          </div>
+          <div class="webcam-info">
+            <strong>{{ webcam.name }}</strong>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -210,7 +219,7 @@
       </div>
       <div class="comment-item" *ngFor="let comment of hillData.comments">
         <p>
-          <strong>{{ comment.user }}</strong> on {{ comment.time | date }}:
+          <strong>{{ comment.user }}</strong> {{ comment.time | date }}:
           {{ comment.text }}
         </p>
       </div>

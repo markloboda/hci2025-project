@@ -126,6 +126,10 @@ export class HillPageComponent implements OnInit {
     }
   }
 
+  getPopularityIcons(popularity: number): boolean[] {
+    return Array(5).fill(false).map((_, i) => i < popularity);
+  }
+
   downloadRouteGPX(gpsFile: string | undefined): void {
     if (!gpsFile) return;
 
@@ -149,5 +153,40 @@ export class HillPageComponent implements OnInit {
         console.error('Download failed:', err);
         alert('Prenos GPX datoteke ni uspel. Datoteka morda ne obstaja na strežniku.');
       });
+  }
+
+  // Webcam logic (similar to CamerasComponent)
+  private dynamicSrc: Record<number, string> = {};
+
+  getLiveSrc(cam: any): string {
+    return this.dynamicSrc[cam.id] || this.computeLiveSrc(cam);
+  }
+
+  private computeLiveSrc(cam: any): string {
+    try {
+      const url = cam.url || '';
+      // If URL contains the image.html wrapper, extract the path after '?'
+      if (url.includes('image.html?')) {
+        const parts = url.split('image.html?');
+        const origin = new URL(url).origin;
+        const direct = origin + parts[1];
+        return this.appendTimestamp(direct);
+      }
+      return this.appendTimestamp(url);
+    } catch (err) {
+      return cam.url;
+    }
+  }
+
+  private appendTimestamp(u: string): string {
+    if (!u) return u;
+    const sep = u.includes('?') ? '&' : '?';
+    return `${u}${sep}_=${Date.now()}`;
+  }
+
+  openWebcam(url: string): void {
+    if (url) {
+      window.open(url, '_blank', 'noopener');
+    }
   }
 }

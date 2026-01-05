@@ -1,6 +1,6 @@
 .hero {
   position: relative;
-  height: 40vh;
+  height: 30vh;
   z-index: 20;
 
   /* Background layer (dimmed at start) */

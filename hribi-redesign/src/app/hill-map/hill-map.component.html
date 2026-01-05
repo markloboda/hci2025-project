@@ -13,7 +13,7 @@
             <div *ngFor="let hill of selectedHills()" class="hill-card" [id]="'hill-card-' + hill.id">
 
                 <div class="hill-image-container">
-                    <img [src]="hill.images?.length ? hill.images[0].url : 'assets/img/default.jpg'"
+                    <img [src]="hill.images.length ? hill.images[0].url : 'assets/img/default.jpg'"
                         alt="{{ hill.name }}" class="hill-image">
                 </div>
 

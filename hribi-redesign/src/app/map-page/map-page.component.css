@@ -3,6 +3,8 @@
   height: 100vh;
   box-sizing: border-box;
   background: var(--background);
+  display: flex;
+  flex-direction: column;
 }
 
 .page-header-map {
@@ -20,7 +22,7 @@
 .map-layout {
   display: flex;
   flex-direction: row;
-  height: calc(74vh - 80px);
+  flex: 1;
   overflow: hidden;
   position: relative;
 }
@@ -165,7 +167,7 @@
 
 /* Override Map Styles */
 ::ng-deep app-hill-map .map-container {
-  height: 80% !important;
+  height: 100% !important;
   border-radius: 0 !important;
 }
 
