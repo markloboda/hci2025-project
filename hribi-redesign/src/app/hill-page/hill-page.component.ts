@@ -1,8 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Hill, hills } from '../../assets/hills';
 import { WeatherService } from '../services/weather.service';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-hill-page',
@@ -11,7 +12,7 @@ import { WeatherService } from '../services/weather.service';
   templateUrl: './hill-page.component.html',
   styleUrls: ['./hill-page.component.css']
 })
-export class HillPageComponent implements OnInit {
+export class HillPageComponent implements OnInit, AfterViewInit {
   private route = inject(ActivatedRoute);
   private weatherService = inject(WeatherService);
 
@@ -23,12 +24,20 @@ export class HillPageComponent implements OnInit {
   selectedRouteIndex: number | null = null;
   selectedImage: any = null;
 
+  private map: L.Map | undefined;
+  private hillMarker: L.Marker | undefined;
+  private routeLayer: L.Polyline | undefined;
+
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.hillID = +params['id'];
       this.loadHillData();
       this.loadWeatherData();
     });
+  }
+
+  ngAfterViewInit() {
+    this.initMap();
   }
 
   loadHillData() {
@@ -93,20 +102,35 @@ export class HillPageComponent implements OnInit {
 
   selectRoute(index: number): void {
     this.selectedRouteIndex = index;
+
+    // Visualize route on map if GPX exists
+    const route = this.hillData.routes[index];
+    if (route && route.gps) {
+      this.displayRouteOnMap(route.gps);
+    } else {
+      this.removeRouteFromMap();
+      // Center back on hill if no route
+      if (this.map && this.hillData) {
+        this.map.flyTo([this.hillData.lat, this.hillData.lon], 13);
+      }
+    }
+
     // Wait for the next tick to ensure the DOM has updated with the route details section
     setTimeout(() => {
-      const element = document.getElementById('map');
+      const element = document.getElementById('map-section');
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
     }, 0);
-    // TODO: Here you'll add map highlighting logic later
     console.log('Selected route:', this.hillData.routes[index].name);
   }
 
   deselectRoute(): void {
     this.selectedRouteIndex = null;
-    // TODO: Here you'll add map unhighlighting logic later
+    this.removeRouteFromMap();
+    if (this.map && this.hillData) {
+      this.map.flyTo([this.hillData.lat, this.hillData.lon], 13);
+    }
   }
 
   openImageModal(image: any): void {
@@ -187,6 +211,82 @@ export class HillPageComponent implements OnInit {
   openWebcam(url: string): void {
     if (url) {
       window.open(url, '_blank', 'noopener');
+    }
+  }
+
+  private initMap(): void {
+    if (!this.hillData) return;
+
+    // Use a slight timeout to ensure container is rendered
+    setTimeout(() => {
+      const mapContainer = document.getElementById('hill-page-map');
+      if (!mapContainer) return;
+
+      this.map = L.map('hill-page-map').setView([this.hillData.lat, this.hillData.lon], 13);
+
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 19,
+        attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+      }).addTo(this.map);
+
+      const iconRetinaUrl = 'assets/marker-icon-2x.png';
+      const iconUrl = 'assets/marker-icon.png';
+      const shadowUrl = 'assets/marker-shadow.png';
+      const iconDefault = L.icon({
+        iconRetinaUrl,
+        iconUrl,
+        shadowUrl,
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+      });
+
+      this.hillMarker = L.marker([this.hillData.lat, this.hillData.lon], { icon: iconDefault })
+        .addTo(this.map)
+        .bindPopup(`<b>${this.hillData.name}</b><br>${this.hillData.height}m`)
+        .openPopup();
+    }, 100);
+  }
+
+  private displayRouteOnMap(gpsFile: string): void {
+    if (!this.map) return;
+
+    this.removeRouteFromMap();
+
+    const filePath = `assets/gps/${gpsFile}`;
+    fetch(filePath)
+      .then(response => {
+        if (!response.ok) throw new Error(`GPX file not found: ${gpsFile}`);
+        return response.text();
+      })
+      .then(gpxText => {
+        const parser = new DOMParser();
+        const gpxDoc = parser.parseFromString(gpxText, "text/xml");
+        const trkpts = gpxDoc.getElementsByTagName('trkpt');
+        const latLngs: L.LatLngExpression[] = [];
+
+        for (let i = 0; i < trkpts.length; i++) {
+          const lat = parseFloat(trkpts[i].getAttribute('lat') || '0');
+          const lon = parseFloat(trkpts[i].getAttribute('lon') || '0');
+          latLngs.push([lat, lon]);
+        }
+
+        if (latLngs.length > 0) {
+          this.routeLayer = L.polyline(latLngs, { color: 'blue', weight: 4 }).addTo(this.map!);
+          this.map!.fitBounds(this.routeLayer.getBounds(), { padding: [50, 50] });
+        }
+      })
+      .catch(error => {
+        console.error('Error parsing GPX:', error);
+        // Optionally notify user
+      });
+  }
+
+  private removeRouteFromMap(): void {
+    if (this.routeLayer && this.map) {
+      this.map.removeLayer(this.routeLayer);
+      this.routeLayer = undefined;
     }
   }
 }

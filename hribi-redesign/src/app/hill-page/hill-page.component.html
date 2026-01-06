@@ -96,20 +96,13 @@
     <!-- Map and Routes Section -->
     <div class="map-routes-section">
       <!-- Map -->
-      <div id="map" class="map-card card-panel group-card">
+      <div id="map-section" class="map-card card-panel group-card">
         <h2>🗺️ Zemljevid</h2>
-        <div class="map-placeholder">
-          <div class="map-icon">🗺️</div>
-          <p>Zemljevid za {{ hillData.name }}</p>
-          <div class="map-info">
-            <p><strong>📍 Koordinate:</strong> {{ hillData.lat }}°N, {{ hillData.lon }}°E</p>
-          </div>
+        <div id="hill-page-map" style="height: 400px; width: 100%; border-radius: 10px; z-index: 1;"></div>
+        <div class="map-actions" style="margin-top: 15px; text-align: center;">
           <button class="map-button" (click)="openInGoogleMaps()">
             Odpri v Google Maps
           </button>
-          <div class="map-hint" *ngIf="hillData.routes.length > 0">
-            <p>💡 Klikni na pot za prikaz na zemljevidu</p>
-          </div>
         </div>
       </div>
 
