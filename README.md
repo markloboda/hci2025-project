@@ -1,4 +1,4 @@
-# 🏔️ Hribi.net: prenova spletne strani (KČR 2025/2026)
+# 🏔️ Hribi.net - prenova spletne strani (KČR 2025/2026)
 
 Projekt vsebuje prenovo spletne strani **hribi.net**, enega najbolj uporabljenih slovenskih portalov za pohodnike.
 Obstoječa stran vsebuje veliko informacij, vendar je začetna stran pogosto nepregledna, dizajn je zastarel, uporaba na telefonu pa je nerodna.   

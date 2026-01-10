@@ -1,6 +1,6 @@
 <div class="page-placeholder">
   <h1>Kamere</h1>
-  <p>Live cameras near popular peaks and passes. Click an entry to open the stream.</p>
+  <p>Prenosi spletnih kamer v živo (klik na kamero odpre prenos).</p>
 
   <!-- Search Bar -->
   <div class="search-bar-container">
@@ -8,16 +8,6 @@
       (input)="updateSearch($event)" [value]="searchTerm" />
   </div>
 
-  <!-- Preview grid: first 3 cameras -->
-  <div class="preview-grid">
-    <div *ngFor="let cam of cameras | slice:0:3" class="preview-card">
-      <img *ngIf="cam.url" class="cam-preview" [src]="getLiveSrc(cam)" [alt]="cam.name" (click)="open(cam.url)" />
-      <div class="preview-meta">
-        <h3>{{ cam.name }}</h3>
-        <p class="meta">{{ cam.location }}</p>
-      </div>
-    </div>
-  </div>
 
   <!-- CASE 1: SEARCH ACTIVE -->
   <div *ngIf="searchTerm" class="results-container">
@@ -49,10 +39,9 @@
   <div *ngIf="!searchTerm">
     <!-- POPULAR SECTION -->
     <section class="camera-section">
-      <h2 class="section-title">🔥 Priljubljeno</h2>
+      <h2 class="section-title">Priljubljeno</h2>
       <div class="preview-grid">
         <div *ngFor="let cam of popularCameras" class="preview-card popular-card">
-          <div class="live-badge">V ŽIVO</div>
           <img *ngIf="cam.url" class="cam-preview" [src]="getLiveSrc(cam)" [alt]="cam.name" (click)="open(cam.url)" />
           <div class="preview-meta">
             <h3>{{ cam.name }}</h3>
