@@ -23,16 +23,34 @@ export class MapPageComponent {
   maxHeight: number | null = null;
 
   showFilters = false;
-  showMobileList = false;
+  isListVisible = false;
+
+  onListToggled(isOpen: boolean) {
+    this.isListVisible = isOpen;
+    if (isOpen) {
+      this.showFilters = false; // Auto-close filters if list opens
+    }
+  }
+
+  shouldShowBackdrop() {
+    return this.showFilters || this.isListVisible;
+  }
+
+  shouldShowButton() {
+    return !this.isListVisible;
+  }
 
   toggleFilters() {
     this.showFilters = !this.showFilters;
-    if (this.showFilters) this.showMobileList = false; // Close list if opening filters
+    //if (this.showFilters) this.isListVisible = false; // Close list if opening filters
   }
 
-  toggleList() {
-    this.showMobileList = !this.showMobileList;
-    if (this.showMobileList) this.showFilters = false; // Close filters if opening list
+  backdropClick() {
+    if (this.showFilters) {
+      this.toggleFilters();
+    } else if (!!this.hillMap && this.isListVisible) {
+      this.hillMap.clearSelection();
+    }
   }
 
   get mountainRanges(): string[] {

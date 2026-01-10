@@ -3,14 +3,14 @@
     <h1>Zemljevid</h1>
   </header>
 
-  <button class="mobile-filter-toggle" (click)="toggleFilters()">
+  <button *ngIf="shouldShowButton()" class="mobile-filter-toggle" (click)="toggleFilters()">
     <i class="fa-solid fa-filter"></i> {{ showFilters ? 'Zapri' : 'Filtriraj' }}
   </button>
 
   <div class="map-layout">
 
     <!-- Sidebar with Glassmorphism -->
-    <div class="sidebar-backdrop" (click)="toggleFilters()" [class.active]="showFilters"></div>
+    <div class="sidebar-backdrop" (click)="backdropClick()" [class.active]="shouldShowBackdrop()"></div>
     <aside class="map-sidebar" [class.active]="showFilters">
       <div class="sidebar-header">
         <h2 class="roboto-700">Filtriraj Hribe</h2>
@@ -58,7 +58,7 @@
 
     <!-- Map Area -->
     <main class="map-content">
-      <app-hill-map [hills]="filteredHills" [autoSelectAll]="true"></app-hill-map>
+      <app-hill-map [hills]="filteredHills" [autoSelectAll]="true" [isFilterOpen]="showFilters" (toggleHillsSidebar)="onListToggled($event)"></app-hill-map>
     </main>
 
   </div>

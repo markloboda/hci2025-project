@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, signal, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, AfterViewInit, signal, inject, Input, OnChanges, SimpleChanges, Output, EventEmitter } from '@angular/core';
 import * as L from 'leaflet';
 import { icon, Marker } from 'leaflet';
 import 'leaflet.markercluster';
@@ -31,11 +31,21 @@ export class HillMapComponent implements AfterViewInit, OnChanges {
   private markerClusterGroup!: L.MarkerClusterGroup;
   private readonly OWM_API_KEY = '4ef79803c9b25f6b5dc3bc61922ae0c5';
 
+  @Input() isFilterOpen = false;
+  @Output() toggleHillsSidebar = new EventEmitter<boolean>();
   showList = false;
   // Signal to hold the list of hills to display in the sidebar
   selectedHills = signal<Hill[]>([]);
 
   private weatherIconGroup: L.LayerGroup = L.layerGroup();
+
+  isSidebarOpen() {
+    return this.showList && !this.isFilterOpen;
+  }
+
+  shouldShowButton() {
+    return this.selectedHills().length > 0 && !this.showList && !this.isFilterOpen;
+  }
 
   ngAfterViewInit(): void {
     this.initMap();
@@ -43,6 +53,7 @@ export class HillMapComponent implements AfterViewInit, OnChanges {
 
   toggleList() {
     this.showList = !this.showList;
+    this.toggleHillsSidebar.emit(this.showList);
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -60,11 +71,13 @@ export class HillMapComponent implements AfterViewInit, OnChanges {
   clearSelection() {
     //this.selectedHills.set([]);
     this.showList = false;
+    this.toggleHillsSidebar.emit(this.showList);
   }
 
   // NEW: Zooms/Pans the map to the selected hill location
   flyToHill(hill: Hill) {
     if (this.map) {
+      this.clearSelection();
       this.map.flyTo([hill.lat, hill.lon], 13);
       // Wait for fly animation to settle slightly or just open it
       setTimeout(() => {

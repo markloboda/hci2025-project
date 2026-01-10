@@ -1,11 +1,11 @@
 <div class="map-container">
     <div id="map" [class.map-with-sidebar]="selectedHills().length > 0"></div>
 
-    <button *ngIf="selectedHills().length > 0 && !showList" class="mobile-list-toggle" (click)="toggleList()">
+    <button *ngIf="shouldShowButton()" class="mobile-list-toggle" (click)="toggleList()">
         ➔
     </button>
 
-    <div *ngIf="selectedHills().length > 0" class="sidebar" [class.active]="showList">
+    <div *ngIf="selectedHills().length > 0" class="sidebar" [class.active]="isSidebarOpen()">
 
         <header>
             <h2>{{ selectedHills().length }} Hrib{{ selectedHills().length > 1 ? 'ov' : '' }} Izbran{{
