@@ -15,13 +15,25 @@ export class MapPageComponent {
   @ViewChild(HillMapComponent) hillMap!: HillMapComponent;
 
 
-
   hills = hills;
 
   selectedMountainRange: string = '';
   selectedDifficulty: string = '';
   minHeight: number | null = null;
   maxHeight: number | null = null;
+
+  showFilters = false;
+  showMobileList = false;
+
+  toggleFilters() {
+    this.showFilters = !this.showFilters;
+    if (this.showFilters) this.showMobileList = false; // Close list if opening filters
+  }
+
+  toggleList() {
+    this.showMobileList = !this.showMobileList;
+    if (this.showMobileList) this.showFilters = false; // Close filters if opening list
+  }
 
   get mountainRanges(): string[] {
     const ranges = new Set(this.hills.map(h => h.mountainRange));

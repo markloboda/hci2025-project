@@ -1,12 +1,17 @@
 <div class="map-page">
-  <header class="page-placeholder">
+  <header class="page-placeholder only-desktop">
     <h1>Zemljevid</h1>
   </header>
+
+  <button class="mobile-filter-toggle" (click)="toggleFilters()">
+    <i class="fa-solid fa-filter"></i> {{ showFilters ? 'Zapri' : 'Filtriraj' }}
+  </button>
 
   <div class="map-layout">
 
     <!-- Sidebar with Glassmorphism -->
-    <aside class="map-sidebar">
+    <div class="sidebar-backdrop" (click)="toggleFilters()" [class.active]="showFilters"></div>
+    <aside class="map-sidebar" [class.active]="showFilters">
       <div class="sidebar-header">
         <h2 class="roboto-700">Filtriraj Hribe</h2>
         <button class="locate-btn" (click)="onLocateMe()" title="Locate Me">

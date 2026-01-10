@@ -6,7 +6,13 @@
     </a>
   </div>
 
-  <nav class="nav-right roboto-100">
+  <button class="menu-toggle" (click)="toggleMenu()" [attr.aria-expanded]="isMenuOpen">
+    <span class="bar"></span>
+    <span class="bar"></span>
+    <span class="bar"></span>
+  </button>
+
+  <nav class="nav-right roboto-100" [class.active]="isMenuOpen">
     <a routerLink="/home">Domov</a>
     <a routerLink="/map">Zemljevid</a>
     <a routerLink="/weather">Vreme</a>

@@ -1,6 +1,7 @@
 .map-page {
   padding-top: 0;
-  height: 100vh;
+  padding-bottom: 0;
+  height: calc(100vh - 60px);
   box-sizing: border-box;
   background: var(--background);
   display: flex;
@@ -171,20 +172,6 @@
   border-radius: 0 !important;
 }
 
-@media (max-width: 900px) {
-  .map-layout {
-    flex-direction: column;
-  }
-
-  .map-sidebar {
-    width: 100%;
-    height: 35vh;
-    border-right: none;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    padding: 20px;
-  }
-}
-
 /* Filter Styles */
 .filters-container {
   padding: 10px 0;
@@ -265,4 +252,93 @@
 
 .dark-theme .results-count {
   border-top-color: rgba(255, 255, 255, 0.1);
+}
+
+.only-mobile {
+  display: none;
+}
+
+.only-desktop {
+  display: block;
+}
+
+/* --- MOBILE --- */
+.mobile-filter-toggle {
+  display: none;
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1005;
+  padding: 12px 24px;
+  border-radius: 30px;
+  background: var(--accent-color);
+  color: white;
+  border: none;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+}
+
+@media (max-width: 900px) {
+  .map-page {
+    position: fixed;
+    top: 60px;
+    left: 0;
+    width: 100vw;
+  }
+
+  .mobile-filter-toggle {
+    display: block; /* Show only on mobile */
+  }
+
+  .only-mobile {
+    display: block;
+  }
+
+  .only-desktop {
+    display: none;
+  }
+
+  .map-sidebar {
+    position: fixed;
+    left: -100%; /* Hide off-screen */
+    top: 60px;
+    width: 85% !important;
+    height: 100% !important;
+    /*height: 100vh !important;*/
+    transition: left 0.3s ease;
+    box-shadow: 20px 0 50px rgba(0,0,0,0.2);
+    z-index: 1003;
+  }
+
+
+  .map-sidebar.active {
+    left: 0; /* Slide in */
+  }
+
+  .sidebar-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,0.5);
+    z-index: 1001;
+
+    /* ANIMATION SETUP */
+    opacity: 0;             /* Start transparent */
+    visibility: hidden;    /* Don't block clicks when hidden */
+    backdrop-filter: blur(0px); /* Start without blur */
+    
+    /* Transition all properties over 0.3 seconds */
+    transition: opacity 0.3s ease, 
+                visibility 0.3s ease, 
+                backdrop-filter 0.3s ease;
+  }
+
+  .sidebar-backdrop.active {
+    opacity: 1;            /* Fade in */
+    visibility: visible;   /* Enable interaction */
+    backdrop-filter: blur(4px); /* Animate the blur effect too */
+  }
 }

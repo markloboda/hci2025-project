@@ -20,6 +20,7 @@ export class AppComponent {
   // router injection for programmatic navigation (used by goHome)
   private router = inject(Router);
   // darkMode = false;
+  isMenuOpen = false;
 
   ngOnInit(): void {
     console.log('AppComponent initialized');
@@ -27,6 +28,7 @@ export class AppComponent {
       if (e instanceof NavigationStart) {
         console.log('NavigationStart ->', e.url);
       } else if (e instanceof NavigationEnd) {
+        this.isMenuOpen = false;
         console.log('NavigationEnd ->', e.url);
       } else if (e instanceof NavigationError) {
         console.error('NavigationError ->', e.error);
@@ -48,6 +50,10 @@ export class AppComponent {
     //   this.darkMode = false;
     // }
     // this.applyTheme();
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
   }
 
   // Backwards-compatible handler in case templates call (click)="goHome($event)"

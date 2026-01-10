@@ -98,3 +98,51 @@
     transform: translate(-50%, 0);
   }
 }
+
+/* --- MOBILE --- */
+.menu-toggle {
+  display: none; /* Hidden by default on desktop */
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+}
+
+.menu-toggle .bar {
+  width: 25px;
+  height: 3px;
+  background-color: var(--nav-link-color, #111);
+  transition: 0.3s;
+}
+
+/* --- MOBILE RESPONSIVE STYLES --- */
+@media (max-width: 900px) {
+  .menu-toggle {
+    display: flex; /* Show button on mobile */
+  }
+
+  .nav-right {
+    display: none; /* Hide links by default on mobile */
+    flex-direction: column;
+    position: absolute;
+    top: 72px; /* Height of your navbar */
+    left: 0;
+    width: 100%;
+    background: var(--nav-bg, rgba(255, 255, 255, 0.98));
+    padding: 20px 0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    text-align: center;
+  }
+
+  .nav-right.active {
+    display: flex; /* Show links when "isMenuOpen" is true */
+  }
+
+  .nav-right a {
+    margin: 10px 0; /* Stack links vertically */
+    font-size: 18px;
+    width: 100%;
+  }
+}

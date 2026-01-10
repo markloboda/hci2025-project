@@ -31,6 +31,7 @@ export class HillMapComponent implements AfterViewInit, OnChanges {
   private markerClusterGroup!: L.MarkerClusterGroup;
   private readonly OWM_API_KEY = '4ef79803c9b25f6b5dc3bc61922ae0c5';
 
+  showList = false;
   // Signal to hold the list of hills to display in the sidebar
   selectedHills = signal<Hill[]>([]);
 
@@ -38,6 +39,10 @@ export class HillMapComponent implements AfterViewInit, OnChanges {
 
   ngAfterViewInit(): void {
     this.initMap();
+  }
+
+  toggleList() {
+    this.showList = !this.showList;
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -53,7 +58,8 @@ export class HillMapComponent implements AfterViewInit, OnChanges {
   }
 
   clearSelection() {
-    this.selectedHills.set([]);
+    //this.selectedHills.set([]);
+    this.showList = false;
   }
 
   // NEW: Zooms/Pans the map to the selected hill location
