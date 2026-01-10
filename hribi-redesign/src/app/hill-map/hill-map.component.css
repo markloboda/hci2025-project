@@ -238,6 +238,7 @@
     /* Added to make mobile work */
     position: fixed;
     top: 60px;
+    bottom: 0px;
     right: min(max(-30%, -450px), -320px);
     z-index: 1001;
 
