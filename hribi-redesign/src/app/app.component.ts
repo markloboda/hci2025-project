@@ -87,6 +87,11 @@ export class AppComponent {
   @HostListener('window:scroll', [])
   onWindowScroll() {
     const viewportHeight = window.innerHeight;
-    this.showSearch = window.scrollY > (viewportHeight * 0.3);
+    const isHome = this.router.url === '/home' || this.router.url === '/';
+    if (isHome) {
+      this.showSearch = window.scrollY > (viewportHeight * 0.3);
+    } else {
+      this.showSearch = false;
+    }
   }
 }

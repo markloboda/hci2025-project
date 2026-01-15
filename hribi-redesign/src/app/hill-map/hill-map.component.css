@@ -38,6 +38,20 @@
 
 }
 
+
+/* Custom Popup Styling */
+.custom-popup .leaflet-popup-content-wrapper {
+  border-radius: 8px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+}
+
+.custom-popup-content {
+  font-weight: 700;
+  font-size: 1.1em;
+  color: #333;
+  text-align: center;
+}
+
 .dark-theme .sidebar {
   background: rgba(14, 42, 54, 0.7);
   border-left-color: rgba(255, 255, 255, 0.05);
@@ -230,20 +244,20 @@
   color: white;
   border: none;
   font-weight: bold;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 @media (max-width: 900px) {
   .sidebar {
     /* Added to make mobile work */
     position: fixed;
-    top: 60px;
+    top: 72px;
     bottom: 0px;
     right: min(max(-30%, -450px), -320px);
     z-index: 1001;
 
     transition: right 0.3s ease;
-    box-shadow: 20px 0 50px rgba(0,0,0,0.2);
+    box-shadow: 20px 0 50px rgba(0, 0, 0, 0.2);
   }
 
   .mobile-list-toggle {
@@ -261,4 +275,9 @@
   #map {
     border-radius: 0;
   }
+}
+
+/* Red Marker Filter */
+::ng-deep .marker-red-filter {
+  filter: hue-rotate(150deg);
 }

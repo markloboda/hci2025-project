@@ -17,7 +17,7 @@ export class HillPageComponent implements OnInit, AfterViewInit {
   private weatherService = inject(WeatherService);
 
   hillID!: number;
-  hillData: any = null;
+  hillData: Hill | undefined;
   weatherForecast: any[] = [];
   currentWeather: any = null;
   expandedRoutes: boolean[] = [];
@@ -101,6 +101,7 @@ export class HillPageComponent implements OnInit, AfterViewInit {
   }
 
   selectRoute(index: number): void {
+    if (!this.hillData) return;
     this.selectedRouteIndex = index;
 
     // Visualize route on map if GPX exists
@@ -220,7 +221,7 @@ export class HillPageComponent implements OnInit, AfterViewInit {
     // Use a slight timeout to ensure container is rendered
     setTimeout(() => {
       const mapContainer = document.getElementById('hill-page-map');
-      if (!mapContainer) return;
+      if (!mapContainer || !this.hillData) return;
 
       this.map = L.map('hill-page-map').setView([this.hillData.lat, this.hillData.lon], 13);
 

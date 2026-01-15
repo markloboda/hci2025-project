@@ -1,65 +1,76 @@
-<div class="map-page">
-  <header class="page-placeholder only-desktop">
-    <h1>Zemljevid</h1>
-  </header>
+<div class="map-page-wrapper">
+  <section class="homepage-map-section">
+    <div class="homepage-map-card group-card">
+      <h2 class="homepage-map-title roboto-700">
+        Interaktivni zemljevid Slovenije
+      </h2>
+
+      <p class="homepage-map-subtitle">
+        Izberi hrib na zemljevidu ali klikni na marker za podrobnosti.
+      </p>
+
+      <div class="homepage-map-container">
+        <!-- Sidebar Backdrop for Mobile -->
+        <div class="sidebar-backdrop" (click)="backdropClick()" [class.active]="shouldShowBackdrop()"></div>
+
+        <div class="map-layout">
+          <!-- Sidebar with Glassmorphism -->
+          <aside class="map-sidebar" [class.active]="showFilters">
+            <div class="sidebar-header">
+              <h2 class="roboto-700">Filtriraj Hribe</h2>
+              <button class="locate-btn" (click)="onLocateMe()" title="Locate Me">
+                📍
+              </button>
+            </div>
+
+            <div class="filters-container">
+              <!-- Mountain Range -->
+              <div class="filter-group">
+                <label class="filter-label">Gorovje</label>
+                <select [(ngModel)]="selectedMountainRange" class="filter-select">
+                  <option value="">Vsa gorovja</option>
+                  <option *ngFor="let range of mountainRanges" [value]="range">{{ range }}</option>
+                </select>
+              </div>
+
+              <!-- Difficulty -->
+              <div class="filter-group">
+                <label class="filter-label">Težavnost</label>
+                <select [(ngModel)]="selectedDifficulty" class="filter-select">
+                  <option value="">Vse težavnosti</option>
+                  <option value="Easy">Lahka</option>
+                  <option value="Medium">Zahtevna</option>
+                  <option value="Hard">Zelo zahtevna</option>
+                </select>
+              </div>
+
+              <!-- Height Range -->
+              <div class="filter-group">
+                <label class="filter-label">Nadmorska višina (m)</label>
+                <div class="height-inputs">
+                  <input type="number" [(ngModel)]="minHeight" placeholder="Min" class="filter-input-small">
+                  <span class="range-separator">-</span>
+                  <input type="number" [(ngModel)]="maxHeight" placeholder="Max" class="filter-input-small">
+                </div>
+              </div>
+
+              <div class="results-count">
+                Najdenih hribov: {{ filteredHills.length }}
+              </div>
+            </div>
+          </aside>
+
+          <!-- Map Area -->
+          <main class="map-content">
+            <app-hill-map [hills]="filteredHills" [autoSelectAll]="false" [isFilterOpen]="showFilters"
+              (toggleHillsSidebar)="onListToggled($event)"></app-hill-map>
+          </main>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <button *ngIf="shouldShowButton()" class="mobile-filter-toggle" (click)="toggleFilters()">
     <i class="fa-solid fa-filter"></i> {{ showFilters ? 'Zapri' : 'Filtriraj' }}
   </button>
-
-  <div class="map-layout">
-
-    <!-- Sidebar with Glassmorphism -->
-    <div class="sidebar-backdrop" (click)="backdropClick()" [class.active]="shouldShowBackdrop()"></div>
-    <aside class="map-sidebar" [class.active]="showFilters">
-      <div class="sidebar-header">
-        <h2 class="roboto-700">Filtriraj Hribe</h2>
-        <button class="locate-btn" (click)="onLocateMe()" title="Locate Me">
-          📍
-        </button>
-      </div>
-
-      <div class="filters-container">
-        <!-- Mountain Range -->
-        <div class="filter-group">
-          <label class="filter-label">Gorovje</label>
-          <select [(ngModel)]="selectedMountainRange" class="filter-select">
-            <option value="">Vsa gorovja</option>
-            <option *ngFor="let range of mountainRanges" [value]="range">{{ range }}</option>
-          </select>
-        </div>
-
-        <!-- Difficulty -->
-        <div class="filter-group">
-          <label class="filter-label">Težavnost</label>
-          <select [(ngModel)]="selectedDifficulty" class="filter-select">
-            <option value="">Vse težavnosti</option>
-            <option value="Easy">Lahka</option>
-            <option value="Medium">Zahtevna</option>
-            <option value="Hard">Zelo zahtevna</option>
-          </select>
-        </div>
-
-        <!-- Height Range -->
-        <div class="filter-group">
-          <label class="filter-label">Nadmorska višina (m)</label>
-          <div class="height-inputs">
-            <input type="number" [(ngModel)]="minHeight" placeholder="Min" class="filter-input-small">
-            <span class="range-separator">-</span>
-            <input type="number" [(ngModel)]="maxHeight" placeholder="Max" class="filter-input-small">
-          </div>
-        </div>
-
-        <div class="results-count">
-          Najdenih hribov: {{ filteredHills.length }}
-        </div>
-      </div>
-    </aside>
-
-    <!-- Map Area -->
-    <main class="map-content">
-      <app-hill-map [hills]="filteredHills" [autoSelectAll]="true" [isFilterOpen]="showFilters" (toggleHillsSidebar)="onListToggled($event)"></app-hill-map>
-    </main>
-
-  </div>
 </div>

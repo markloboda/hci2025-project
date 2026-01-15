@@ -9,5 +9,13 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./weather-page.component.css']
 })
 export class WeatherPageComponent {
+  isModalOpen = false;
 
+  openModal() {
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    this.isModalOpen = false;
+  }
 }

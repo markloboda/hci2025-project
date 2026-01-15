@@ -174,3 +174,32 @@
   position: relative;
   z-index: 1 !important;
 }
+
+::ng-deep .homepage-map-container app-hill-map .map-container {
+  height: 100% !important;
+  border-radius: 0 !important;
+}
+
+/* --- MOBILE RESPONSIVE STYLES --- */
+@media (max-width: 768px) {
+  .hero .hero-overlay .hero-title {
+    font-size: 42px !important;
+  }
+
+  .hero .hero-overlay .search-box {
+    width: 90% !important;
+    max-width: 320px !important;
+  }
+
+  .homepage-map-section {
+    padding: 0 10px 40px 10px !important;
+  }
+
+  .homepage-map-card {
+    padding: 0 16px !important;
+  }
+
+  .homepage-map-container {
+    height: 400px !important;
+  }
+}

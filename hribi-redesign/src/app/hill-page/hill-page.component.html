@@ -1,8 +1,10 @@
 <div class="hill-page-container" *ngIf="hillData">
   <header class="page-placeholder">
     <h1 class="hill-name">🏔️ {{ hillData.name }}</h1>
-    <p class="roboto-100" style="color: rgba(255,255,255,0.8); text-align: center; font-size: 1.2rem;">ID: {{
-      hillData.id }}</p>
+    <p
+      style="color: rgba(255,255,255,0.95); text-align: center; font-size: 1.3rem; font-weight: 600; margin-top: 5px; text-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+      ID: {{ hillData.id }}
+    </p>
   </header>
 
   <div class="container-premium"
@@ -82,8 +84,8 @@
         No images available.
       </div>
       <div class="thumbnail-row" *ngIf="hillData.images.length > 0">
-        <div class="thumb" *ngFor="let image of hillData.images" [title]="image.name"
-          [style.backgroundImage]="'url(' + image.url + ')'" (click)="openImageModal(image)"></div>
+        <div class="thumb" *ngFor="let img of hillData.images | slice:0:3" [title]="img.name"
+          [style.backgroundImage]="'url(' + img.url + ')'" (click)="openImageModal(img)"></div>
       </div>
     </div>
 

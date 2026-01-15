@@ -272,6 +272,12 @@
   display: flex;
   gap: 10px;
   margin-top: 15px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding-bottom: 10px;
+  /* Space for scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-color) rgba(0, 0, 0, 0.1);
 }
 
 .thumb {
@@ -1001,13 +1007,20 @@
 /* Responsive Design */
 @media (max-width: 1024px) {
   .map-routes-section {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+    /* Force stack on tablet/mobile */
     gap: 20px;
   }
 
   .route-details-content {
     grid-template-columns: 1fr;
     gap: 20px;
+  }
+
+  .map-card,
+  .routes-card {
+    min-height: auto !important;
+    /* Allow auto height when stacked */
   }
 }
 
@@ -1025,8 +1038,9 @@
     padding: 20px;
   }
 
-  .map-placeholder {
-    height: 300px;
+  .map-placeholder,
+  #hill-page-map {
+    height: 300px !important;
     padding: 20px 15px;
   }
 
@@ -1084,7 +1098,7 @@
 /* Map and Routes Side-by-Side Section */
 .map-routes-section {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
   gap: 30px;
   margin-bottom: 30px;
 }
@@ -1182,5 +1196,5 @@
 .star-icon.active {
   opacity: 1;
   filter: grayscale(0);
-  color: #f1c40f; 
+  color: #f1c40f;
 }

@@ -69,7 +69,8 @@ export class HillMapComponent implements AfterViewInit, OnChanges {
   }
 
   clearSelection() {
-    //this.selectedHills.set([]);
+    this.selectedHillId = null;
+    this.updateMarkerIcons();
     this.showList = false;
     this.toggleHillsSidebar.emit(this.showList);
   }
@@ -77,16 +78,49 @@ export class HillMapComponent implements AfterViewInit, OnChanges {
   // NEW: Zooms/Pans the map to the selected hill location
   flyToHill(hill: Hill) {
     if (this.map) {
-      this.clearSelection();
+      this.selectedHillId = hill.id;
+      this.showList = false;
+      this.toggleHillsSidebar.emit(this.showList);
+
       this.map.flyTo([hill.lat, hill.lon], 13);
+
       // Wait for fly animation to settle slightly or just open it
       setTimeout(() => {
-        L.popup()
-          .setLatLng([hill.lat, hill.lon])
-          .setContent(`<div style="font-weight: bold; font-family: 'Inter', sans-serif;">${hill.name}</div>`)
-          .openOn(this.map);
+        this.updateMarkerIcons();
       }, 300);
     }
+  }
+
+  private updateMarkerIcons() {
+    if (!this.markerClusterGroup) return;
+
+    const hillIcon = L.icon({
+      iconUrl: 'assets/icons/marker.svg',
+      iconSize: [24, 38],
+      iconAnchor: [19, 46],
+      popupAnchor: [0, -42]
+    });
+
+    const redHillIcon = L.icon({
+      iconUrl: 'assets/icons/marker.svg',
+      iconSize: [24, 38],
+      iconAnchor: [19, 46],
+      popupAnchor: [0, -42],
+      className: 'marker-red-filter'
+    });
+
+    this.markerClusterGroup.eachLayer((layer: any) => {
+      if (layer instanceof L.Marker && (layer as any).options.hillData) {
+        const marker = layer as HillMarker;
+        if (marker.options.hillData.id === this.selectedHillId) {
+          marker.setIcon(redHillIcon);
+          marker.openPopup();
+        } else {
+          marker.setIcon(hillIcon);
+          // marker.closePopup(); // Optional: close others
+        }
+      }
+    });
   }
 
   // Adding of GPX files: in assets/gps folder .gpx files with hill name from start of file to first '-'
@@ -191,6 +225,8 @@ export class HillMapComponent implements AfterViewInit, OnChanges {
   }
 
 
+  selectedHillId: number | null = null;
+
   private initMap() {
     const iconRetinaUrl = 'assets/marker-icon-2x.png';
     const iconUrl = 'assets/marker-icon.png';
@@ -215,14 +251,17 @@ export class HillMapComponent implements AfterViewInit, OnChanges {
     this.map = L.map('map', {
       layers: [osmBaseLayer],
       maxBounds: [
-        [44.421, 13.375], // South-West (Portorož/Istria)
-        [46.92, 16.610]  // North-East (Goričko/Lendava)
+        [42.421, 13.375], // South-West (Portorož/Istria)
+        [48.92, 16.610]  // North-East (Goričko/Lendava)
       ],
       maxBoundsViscosity: 1.0, // Hard stop at bounds
-      minZoom: 8, // Prevent zooming out to world view
+      minZoom: 7, // Allow zooming out slightly more
       zoomSnap: 0.1,
       zoomDelta: 0.1
-    }).setView([46.92, 14.82], 8.5);
+    }).fitBounds([
+      [45.421, 13.375], // South-West
+      [46.920, 16.610]  // North-East
+    ], { padding: [30, 30] });
 
     this.addWeatherIconsToMap();
 
@@ -263,6 +302,28 @@ export class HillMapComponent implements AfterViewInit, OnChanges {
     });
 
     this.map.addLayer(this.markerClusterGroup);
+
+    // Force recalculation of container size and center after init
+    setTimeout(() => {
+      this.syncMapView();
+    }, 400);
+  }
+
+  // NEW: Robust method to ensure map is centered and Slovenia is visible
+  public syncMapView() {
+    if (!this.map) return;
+
+    // Slovenia Bounding Box
+    const sloBounds: L.LatLngBoundsExpression = [
+      [45.421, 13.375],
+      [46.87, 16.610]
+    ];
+
+    this.map.invalidateSize();
+    this.map.fitBounds(sloBounds, {
+      padding: [40, 40],
+      animate: false
+    });
   }
 
   private updateMarkers() {
@@ -277,20 +338,74 @@ export class HillMapComponent implements AfterViewInit, OnChanges {
       popupAnchor: [0, -42]
     });
 
+    // Create the Red Pin Icon using the same image but with CSS filter
+    const redHillIcon = L.icon({
+      iconUrl: 'assets/icons/marker.svg',
+      iconSize: [24, 38],
+      iconAnchor: [19, 46],
+      popupAnchor: [0, -42],
+      className: 'marker-red-filter'
+    });
+
+
     this.hills.forEach(hill => {
+      const isSelected = this.selectedHillId === hill.id;
+
       // Create a custom marker with the full hill object in its options
       const marker = L.marker([hill.lat, hill.lon], {
         // Store the hill data directly in the marker's options for retrieval on click
         hillData: hill,
-        icon: hillIcon
+        icon: isSelected ? redHillIcon : hillIcon
       } as any);
 
-      marker.bindPopup(hill.name);
+      // Bind popup with custom class for better styling
+      marker.bindPopup(`<div class="custom-popup-content">${hill.name}</div>`, {
+        className: 'custom-popup'
+      });
+
+      // Open popup if selected
+      if (isSelected) {
+        // We need to defer opening popup slightly to ensure marker is added to map/cluster
+        setTimeout(() => marker.openPopup(), 100);
+      }
 
       // Add click listener for individual markers
       marker.on('click', (e) => {
         const clickedMarker = e.target as HillMarker;
         const hillData = clickedMarker.options.hillData;
+
+        // Update ID
+        this.selectedHillId = hillData.id;
+
+        // We need to visually update ALL markers because we don't track the 'previous' marker object purely
+        // However, iterating all markers is expensive.
+        // A better UX for this specific map library usage might be to just swap the icon of the clicked one
+        // and reset the others?
+        // ACTUALLY: Since we want robustness, let's just trigger a lightweight re-render or
+        // handle the icon swap manually if we can.
+        // For now, let's try manual swap for performance, if we can find the old one?
+        // No, simplest robust way:
+        // 1. Reset *all* visible markers to blue? No, too many.
+        // 2. Just relying on `updateMarkers` is safe but maybe flickering?
+        // Let's do the manual swap pattern which is faster.
+
+        // Fix: Since we lost reference to "previous marker object" from the previous render,
+        // we can't easily reset it if we just clicked.
+        // BUT, if we are inside the SAME render cycle, we can iterate the cluster group layers?
+        this.markerClusterGroup.eachLayer((layer: any) => {
+          if (layer instanceof L.Marker) {
+            layer.setIcon(hillIcon);
+            layer.closePopup();
+          }
+        });
+
+        // Set this one to Red
+        clickedMarker.setIcon(redHillIcon);
+        clickedMarker.openPopup();
+
+        // Auto-open sidebar on selection
+        this.showList = true;
+        this.toggleHillsSidebar.emit(this.showList);
 
         if (this.autoSelectAll) {
           // Scroll to the card instead of filtering
